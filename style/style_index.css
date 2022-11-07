@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+    .header-center input[type=text]{
+        border: 2px solid #e7e7e7;
+        margin: 10px 0px 10px 10px;
+        padding: 10px 10px;
+        font-size: 15px;
+        outline: none;
+        box-shadow: none;
+        transition: .3s;
+        border-radius: 0px;
+    }
+
+    .header-center input[type=text]:focus{
+        border-color: #74b9ff;
+    }
+
+    .header-center button{
+        margin: 10px 0px 10px 10px;
+        background: #74b9ff;
+        border: none;
+        color: white;
+        height: 45px;
+        font-size: 1.1rem;
+        border-radius: 0px;
+    }
+
+    .header-center button:hover{
+        cursor: pointer;
+        color: white;
+        background: #0984e3;
+    }
+
+    .header-right a{
+        color: rgba(0, 0, 0, 0.7);
+    }
+
+    .header-right a:hover{
+        color: rgba(0,0,0);
+    }
+
+    .wrapper{
+        width: 100%;
+        padding: 80px 50px;
+        min-height: 800px;
+    }
+
+    .catalog-wrapper{
+        width: 100%;
+        border: 2px solid #e7e7e7;
+        padding: 0px 0px 4% 20px;
+        margin: 0px 0px 20px 0px;
+    }
+
+    .catalog-title{
+        margin: 0px 0px 10px 0px;
+        color: black;
+    }
+
+    .catalog{
+        margin: 0px 4% 0px 0px;
+        border: 2px solid #e7e7e7;
+        height: 250px;
+        width: 20%;
+        display: inline-block;
+    }
+
+    footer{
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        border-top: 2px solid #e7e7e7;
+    }
+
+    .footer-left{
+        float: left;
+        height: 100%;
+        padding: 30px 0px 30px 50px;
+        font-size: 0.75rem;
+    }
+
+    .footer-right{
+        padding: 20px 50px 0px 0px;
+        height: 100%;
+        float: right;
+    }
+
+    .title{
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+    .title p{
+        line-height: 30px;
+        font-weight: 1000;
+        margin-right: 10px;
+    }
+
+    .title img{
+        height: 30px;
+    }
+
+    .logos{
+        height: 70px;
+    }
