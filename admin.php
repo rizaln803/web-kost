@@ -51,7 +51,7 @@ $profile = query("SELECT * FROM admins WHERE id = $id");
             <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
             <?php endforeach; ?>
             <h3 class="mb-3 text-center">Daftar Kamar</h3>
-            <a class="link-primary text-decoration-none mb-3" name="add" href="add.php?id=<?= $id; ?>">Tambah Kamar</a>
+            <a class="btn btn-primary mb-3" name="add" href="add.php?id=<?= $id; ?>">Tambah Kamar</a>
             <div class="table-responsive-sm">
                 <table class="table">
                 <thead>
@@ -70,9 +70,9 @@ $profile = query("SELECT * FROM admins WHERE id = $id");
                     <tr>
                     <th scope="row"><?= $i; ?></th>
                     <td>
-                        <a class="link-secondary text-decoration-none" href="update.php?id=<?= $id; ?>&ids=<?= $kst["id"]; ?>" onclick="
+                        <a class="btn btn-secondary text-decoration-none" href="update.php?id=<?= $id; ?>&ids=<?= $kst["id"]; ?>" onclick="
                         return confirm('Ubah data?');">Ubah</a>
-                        <a class="link-danger ms-1 text-decoration-none" href="hapus.php?id=<?= $id; ?>&ids=<?= $kst["id"]; ?>" onclick="
+                        <a class="btn btn-danger ms-1 text-decoration-none" href="hapus.php?id=<?= $id; ?>&ids=<?= $kst["id"]; ?>" onclick="
                         return confirm('Hapus data?');">Hapus</a>
                     </td>
                     <td><?= $kst["name"]; ?></td>

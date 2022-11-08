@@ -70,7 +70,7 @@ if(isset($_POST["submit"])){
                     <div class="input-group">
                         <input type="text" placeholder="Deskripsi" name="description">
                     </div>
-                    <button class="btn btn-primary mb-2" name="submit">Tambah Kamar</button>
+                    <button class="btn btn-primary mb-3" name="submit">Tambah Kamar</button>
                 </form>
             </div>
         </div>
