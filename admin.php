@@ -52,7 +52,7 @@ $profile = query("SELECT * FROM admins WHERE id = $id");
             <?php endforeach; ?>
             <h3 class="mb-3 text-center">Daftar Kamar</h3>
             <a class="btn btn-primary mb-3" name="add" href="add.php?id=<?= $id; ?>">Tambah Kamar</a>
-            <div class="table-responsive-sm">
+            <div class="table-responsive">
                 <table class="table">
                 <thead>
                     <tr>
@@ -70,16 +70,15 @@ $profile = query("SELECT * FROM admins WHERE id = $id");
                     <tr>
                     <th scope="row"><?= $i; ?></th>
                     <td>
-                        <a class="btn btn-secondary text-decoration-none" href="update.php?id=<?= $id; ?>&ids=<?= $kst["id"]; ?>" onclick="
+                        <a class="btn btn-secondary mb-1 me-1 text-decoration-none" href="update.php?id=<?= $id; ?>&ids=<?= $kst["id"]; ?>" onclick="
                         return confirm('Ubah data?');">Ubah</a>
-                        <a class="btn btn-danger ms-1 text-decoration-none" href="hapus.php?id=<?= $id; ?>&ids=<?= $kst["id"]; ?>" onclick="
+                        <a class="btn btn-danger text-decoration-none" href="hapus.php?id=<?= $id; ?>&ids=<?= $kst["id"]; ?>" onclick="
                         return confirm('Hapus data?');">Hapus</a>
                     </td>
                     <td><?= $kst["name"]; ?></td>
                     <td>Rp. <?= $kst["price"]; ?></td>
-                    <td><?= $kst["photo"]; ?></td>
-                    <td><?= $kst["description"]; ?></td>
-                    <td></td>
+                    <td><img width="200" src="img/<?= $kst["photo"]; ?>" alt=""></td>
+                    <td width="300"><?= $kst["description"]; ?></td>
                     </tr>
                     <?php $i++; ?>
                     <?php endforeach; ?>

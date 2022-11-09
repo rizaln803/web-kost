@@ -60,7 +60,7 @@ if(isset($_POST["submit"])){
             <?php endforeach; ?>
             <h3 class="mb-3">Tambah Kamar</h3>
             <div class="form-wrapper">
-                <form action="" method="post" autocomplete="off">
+                <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
                     <div class="input-group">
                         <input type="text" placeholder="Jenis Kamar" name="name" required>
                     </div>
@@ -69,6 +69,10 @@ if(isset($_POST["submit"])){
                     </div>
                     <div class="input-group">
                         <input type="text" placeholder="Deskripsi" name="description">
+                    </div>
+                    <p class="text-secondary m-0">Foto Kamar</p>
+                    <div class="input-group">
+                        <input type="file" name="photo" accept="image/*" required>
                     </div>
                     <button class="btn btn-primary mb-3" name="submit">Tambah Kamar</button>
                 </form>

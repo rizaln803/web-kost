@@ -22,13 +22,50 @@ function tambah($data){
     $description = htmlspecialchars($data["description"]);
     $ids = $data["id"];
 
+    $photo = upload();
+    if(!$photo){
+        return false;
+    }
+
     $query = "INSERT INTO kosts 
                 VALUES
-            ('', '$name', '', '$price', '$description', '$ids')
+            ('', '$name', '$photo', '$price', '$description', '$ids')
             ";
     mysqli_query($conn, $query);
 
     return mysqli_affected_rows($conn);
+}
+
+function upload(){
+    $nama_file = $_FILES['photo']['name'];
+    $size_file = $_FILES['photo']['size'];
+    $error_file = $_FILES['photo']['error'];
+    $tmp_file = $_FILES['photo']['tmp_name'];
+
+    if($error_file === 4){
+        echo "<script>
+            alert('Pilih gambar terlebih dahulu.');
+        </script";
+        return false;
+    }
+
+    $ekstensi_file_terima = ['jpg', 'jpeg', 'png'];
+    $ekstensi_file = explode('.', $nama_file);
+    $ekstensi_file = strtolower(end($ekstensi_file));
+    if(!in_array($ekstensi_file, $ekstensi_file_terima)){
+        echo "<script>
+            alert('Pilih gambar dengan format jpg/jpeg/png.');
+        </script";
+        return false;
+    }
+
+    $nama_file_baru = uniqid();
+    $nama_file_baru .= '.';
+    $nama_file_baru .= $ekstensi_file;
+
+    move_uploaded_file($tmp_file, 'img/' . $nama_file_baru);
+
+    return $nama_file_baru;
 }
 
 function registrasi_a($data){
@@ -116,10 +153,17 @@ function ubah($data){
     $price = htmlspecialchars($data["price"]);
     $description = htmlspecialchars($data["description"]);
     $ids = $data["ids"];
+    
+    if($_FILES['photo']['error'] === 4){
+        $photo = $data["gambar_lama"];
+    }else{
+        $photo = upload();
+    }
 
     $query = "UPDATE kosts SET
                 name = '$name',
                 price = '$price',
+                photo = '$photo',
                 description = '$description'
             WHERE id = $ids
             ";
