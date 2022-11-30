@@ -88,8 +88,8 @@ if(isset($_POST["submit"])){
             <div class="title">
                 <p>Contact us</p><img src="images/contact.png" alt="">
             </div>
-            <p>kostketintang@gmail.com</p>
-            <p>(+62)89668599925</p>
+            <p class="mb-0">kostketintang@gmail.com</p>
+            <p class="mb-0">(+62)89668599925</p>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>

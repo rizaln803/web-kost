@@ -7,6 +7,9 @@ if(!isset($_SESSION["login"])){
     exit;
 }
 
+require 'functions.php';
+$kost = query("SELECT * FROM kosts");
+
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +47,7 @@ if(!isset($_SESSION["login"])){
                         <a class="nav-link" href="">Bantuan</a>
                     </li>
                     <li class="nav-item ms-4">
-                        <a class="nav-link" href="login.php">Masuk</a>
+                        <a class="nav-link" href="logout.php">Masuk</a>
                     </li>
                 </ul>
                 </div>
@@ -52,50 +55,21 @@ if(!isset($_SESSION["login"])){
         </nav>
     </header>
     <div class="wrapper">
-        <div class="catalog-wrapper">
-            <a href=""><h1 class="catalog-title">Kost Rekomendasi</h1></a>
-            <div class="catalog">
-
+        <div class="catalog-wrapper border border-muted pt-3 pb-5 rounded-3 border-2">
+            <a class="text-decoration-none m-3 h1 catalog-title" href="">Daftar Kamar</a>
+            <?php foreach($kost as $kmr) : ?>
+            <div class="catalog m-3 p-3 border border-muted rounded-3 border-2 w-50">
+                <a href=""><img class="mb-3 w-100" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
+                <?php 
+                $ids = $kmr["id_user"];
+                $owner = query("SELECT * FROM admins WHERE id = $ids");
+                foreach($owner as $own) : ?>
+                <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $own["name"]; ?> (<?= $kmr["name"]; ?>)</a>
+                <p class="mt-2 mb-1"><?= $own["address"]; ?></p>
+                <?php endforeach; ?>
+                <p>Rp. <?= $kmr["price"]; ?></p>
             </div>
-            <div class="catalog">
-
-            </div>
-            <div class="catalog">
-
-            </div>
-            <div class="catalog">
-
-            </div>
-        </div>
-        <div class="catalog-wrapper">
-            <a href=""><h1 class="catalog-title">Kost Putra</h1></a>
-            <div class="catalog">
-
-            </div>
-            <div class="catalog">
-
-            </div>
-            <div class="catalog">
-
-            </div>
-            <div class="catalog">
-
-            </div>
-        </div>
-        <div class="catalog-wrapper">
-            <a href=""><h1 class="catalog-title">Kost Putri</h1></a>
-            <div class="catalog">
-
-            </div>
-            <div class="catalog">
-
-            </div>
-            <div class="catalog">
-
-            </div>
-            <div class="catalog">
-
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
     <footer>
@@ -107,8 +81,8 @@ if(!isset($_SESSION["login"])){
             <div class="title">
                 <p>Contact us</p><img src="images/contact.png" alt="">
             </div>
-            <p>kostketintang@gmail.com</p>
-            <p>(+62)89668599925</p>
+            <p class="mb-0">kostketintang@gmail.com</p>
+            <p class="mb-0">(+62)89668599925</p>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>

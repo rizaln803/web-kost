@@ -30,6 +30,13 @@ $profile = query("SELECT * FROM admins WHERE id = $id");
         <nav class="navbar navbar-expand fixed-top" style="border-bottom: 2px solid #e7e7e7; background: rgba(255, 255, 255, 0.95);">
             <div class="container">
                 <a href="" class="navbar-brand"><img src="images/logo.png" style="height: 50px" alt=""></a>
+                <form class="header-center ms-3 me-auto d-flex" action="">
+                    <input class="form-control" type="text" placeholder="Cari Kost...">
+                    <button class="btn" type="button">Cari</i></button>
+                </form>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+                </button>
                 <ul class="header-right ms-auto navbar-nav">
                     <li class="nav-item ms-4">
                         <a class="nav-link" href="admin.php?id=<?= $id; ?>">Dashboard</a>
@@ -96,8 +103,8 @@ $profile = query("SELECT * FROM admins WHERE id = $id");
             <div class="title">
                 <p>Contact us</p><img src="images/contact.png" alt="">
             </div>
-            <p>kostketintang@gmail.com</p>
-            <p>(+62)89668599925</p>
+            <p class="mb-0">kostketintang@gmail.com</p>
+            <p class="mb-0">(+62)89668599925</p>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>

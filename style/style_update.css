@@ -96,7 +96,8 @@
 
     .title{
         display: flex;
-        margin-bottom: 10px;
+        margin-top: 15px;
+        margin-bottom: 0px;
     }
 
     .title p{

@@ -54,9 +54,10 @@
 
     .catalog-wrapper{
         width: 100%;
+        min-height: 800px;
         border: 2px solid #e7e7e7;
-        padding: 0px 0px 4% 20px;
-        margin: 0px 0px 20px 0px;
+        padding: 0px 0px 20px 20px;
+        margin: 30px 0px 20px 0px;
     }
 
     .catalog-title{
@@ -64,13 +65,12 @@
         color: black;
     }
 
-    .catalog{
+    /* .catalog{
         margin: 0px 4% 0px 0px;
         border: 2px solid #e7e7e7;
         height: 250px;
-        width: 20%;
-        display: inline-block;
-    }
+        width: 500px;
+    } */
 
     footer{
         width: 100%;
@@ -93,7 +93,8 @@
 
     .title{
         display: flex;
-        margin-bottom: 10px;
+        margin-top: 15px;
+        margin-bottom: 0px;
     }
 
     .title p{
