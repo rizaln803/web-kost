@@ -8,7 +8,11 @@ if(!isset($_SESSION["login"])){
 }
 
 require 'functions.php';
-$kost = query("SELECT * FROM kosts");
+$kost = query("SELECT * FROM kosts ORDER BY id DESC");
+
+if(isset($_POST["cari"])){
+    $kost = cari($_POST["masukan"]);
+}
 
 ?>
 
@@ -28,9 +32,9 @@ $kost = query("SELECT * FROM kosts");
         <nav class="navbar navbar-expand-md fixed-top" style="border-bottom: 2px solid #e7e7e7; background: rgba(255, 255, 255, 0.95);">
             <div class="container">
                 <a href="" class="navbar-brand"><img src="images/logo.png" style="height: 50px" alt=""></a>
-                <form class="header-center ms-3 me-auto d-flex" action="">
-                    <input class="form-control" type="text" placeholder="Cari Kost...">
-                    <button class="btn" type="button">Cari</i></button>
+                <form class="header-center ms-3 me-auto d-flex" action="" method="post">
+                    <input class="form-control" name="masukan" type="text" placeholder="Cari Kost..." autocomplete="off">
+                    <button class="btn" name="cari" type="submit">Cari</i></button>
                 </form>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>

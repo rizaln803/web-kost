@@ -49,28 +49,28 @@ if(isset($_POST["login"])){
             $rows = mysqli_fetch_array($result);
             if(isset($rows['id']) && $rows['id'] > 0){
                 $_SESSION["admin"] = true;
-                header("Location: admin.php?id=". $rows['id']);
+                $_SESSION['myusername']= $username;
+                header("Location: admin.php");
             }
             exit;
         }else{
             echo "<script>alert('Password salah!');</script>";
         }
-    }else if(mysqli_num_rows($result_b_1) == 1){
-        $row = mysqli_fetch_assoc($result_b_1);
-        if(password_verify($password, $row["password"])){
-            $query = "SELECT id FROM admins WHERE username='$username'";
-            $result = mysqli_query($conn, $query) or die(mysql_error());
-            $rows = mysqli_fetch_array($result);
-            if(isset($rows['id']) && $rows['id'] > 0){
-                $_SESSION["admin"] = true;
-                header("Location: admin.php?id=". $rows['id']);
-            }
-            exit;
-        }else{
-            echo "<script>alert('Password salah!');</script>";
-        }
-    }
-    else{
+    // }else if(mysqli_num_rows($result_b_1) == 1){
+    //     $row = mysqli_fetch_assoc($result_b_1);
+    //     if(password_verify($password, $row["password"])){
+    //         $query = "SELECT id FROM admins WHERE username='$username'";
+    //         $result = mysqli_query($conn, $query) or die(mysql_error());
+    //         $rows = mysqli_fetch_array($result);
+    //         if(isset($rows['id']) && $rows['id'] > 0){
+    //             $_SESSION["admin"] = true;
+    //             header("Location: admin.php?id=");
+    //         }
+    //         exit;
+    //     }else{
+    //         echo "<script>alert('Password salah!');</script>";
+    //     }
+    }else{
         echo "<script>alert('Username atau email tidak terdaftar!');</script>";
     }
 }

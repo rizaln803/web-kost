@@ -62,6 +62,17 @@
         margin-bottom: 25px;
     }
 
+    .form-wrapper .input-group select{
+        width: 100%;
+        height: 100%;
+        border: 2px solid #e7e7e7;
+        padding: 0px 15px;
+        font-size: 1rem;
+        background: transparent;
+        outline: none;
+        transition: .3s;
+    }
+
     .form-wrapper .input-group input{
         width: 100%;
         height: 100%;
@@ -71,6 +82,10 @@
         background: transparent;
         outline: none;
         transition: .3s;
+    }
+
+    .form-wrapper .input-group select:focus{
+        border-color: #74b9ff;
     }
 
     .form-wrapper .input-group input:focus{

@@ -10,14 +10,13 @@ if(!isset($_SESSION["admin"])){
 require 'functions.php';
 
 $id = $_GET["id"];
-$ids = $_GET["ids"];
 
-if(hapus($ids) > 0){
+if(hapus($id) > 0){
     echo "<script>alert('Data berhasil dihapus.');
-            document.location.href = 'admin.php?id=$id';</script>";
+            document.location.href = 'admin.php';</script>";
 }else{
     echo "<script>alert('Data gagal dihapus.');
-            document.location.href = 'admin.php?id=$id';</script>";
+            document.location.href = 'admin.php';</script>";
 }
 
 ?>

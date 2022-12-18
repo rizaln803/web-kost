@@ -84,10 +84,18 @@ if(isset($_POST["register"])){
                     <input type="text" placeholder="Alamat Kost" name="address" required>
                 </div>
                 <div class="input-group">
-                    <input type="number" placeholder="Nomor HP" name="phone" required>
+                    <select name="jenis" required focus>
+                        <option value="" disabled selected>Jenis Kost</option> 
+                        <option value="Kost Pria">Kost Pria</option>        
+                        <option value="Kost Wanita">Kost Wanita</option>
+                        <option value="Kost Campur">Kost Campur</option>               
+                    </select>
                 </div>
                 </div>
                 <div class="column">
+                <div class="input-group">
+                    <input type="number" placeholder="Nomor HP" name="phone" required>
+                </div>
                 <div class="input-group">
                     <input type="email" placeholder="Email" name="email" required>
                 </div>
@@ -97,10 +105,10 @@ if(isset($_POST["register"])){
                 <div class="input-group">
                     <input type="password" placeholder="Konfirmasi Password" name="cpassword" required>
                 </div>
+                </div>
+                </div>
                 <div class="input-group">
                     <button type="submit" name="register" class="btn">Register</button>
-                </div>
-                </div>
                 </div>
                 <p class="description-text">Sudah punya akun? Masuk di <a class ="login-text" href="login.php">sini</a></p>
             </form>

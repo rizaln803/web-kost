@@ -108,6 +108,7 @@ function registrasi_b($data){
     $username = strtolower(stripslashes($data["username"]));
     $email = strtolower($data["email"]);
     $name = ($data["name"]);
+    $jenis = ($data["jenis"]);
     $address = ($data["address"]);
     $phone = ($data["phone"]);
     $password = mysqli_real_escape_string($conn, $data["password"]);
@@ -134,7 +135,7 @@ function registrasi_b($data){
 
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    mysqli_query($conn, "INSERT INTO admins VALUES('', '$username', '$name', '$address', '$phone', '$email', '$password')");
+    mysqli_query($conn, "INSERT INTO admins VALUES('', '$username', '$name', '$jenis', '$address', '$phone', '$email', '$password')");
 
     return mysqli_affected_rows($conn);
 }
@@ -152,7 +153,7 @@ function ubah($data){
     $name = htmlspecialchars($data["name"]);
     $price = htmlspecialchars($data["price"]);
     $description = htmlspecialchars($data["description"]);
-    $ids = $data["ids"];
+    $ids = $data["id"];
     
     if($_FILES['photo']['error'] === 4){
         $photo = $data["gambar_lama"];
@@ -170,6 +171,32 @@ function ubah($data){
     mysqli_query($conn, $query);
 
     return mysqli_affected_rows($conn);
+}
+
+function adprofile($data){
+    global $conn;
+
+    $name = ($data["name"]);
+    $jenis = ($data["jenis"]);
+    $address = ($data["address"]);
+    $phone = ($data["phone"]);
+    $ids = $data["id"];
+
+    $query = "UPDATE admins SET
+                name = '$name',
+                jenis = '$jenis',
+                address = '$address',
+                phone = '$phone'
+            WHERE id = $ids
+            ";
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function cari($masukan){
+    $query = "SELECT * FROM admins WHERE name LIKE '%$masukan%'";
+    return query($query);
 }
 
 ?>

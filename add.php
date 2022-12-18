@@ -8,16 +8,15 @@ if(!isset($_SESSION["admin"])){
 }
 
 require 'functions.php';
-$id = $_GET["id"];
-$_POST['id'] = $id;
-$profile = query("SELECT * FROM admins WHERE id = $id");
+$username = $_SESSION['myusername'];
+$profile = query("SELECT * FROM admins WHERE username = '$username'");
 if(isset($_POST["submit"])){
     if(tambah($_POST) > 0){
         echo "<script>alert('Data berhasil ditambahkan.');
-                document.location.href = 'admin.php?id=$id';</script>";
+                document.location.href = 'admin.php';</script>";
     }else{
         echo "<script>alert('Data gagal ditambahkan.');
-                document.location.href = 'admin.php?id=$id';</script>";
+                document.location.href = 'admin.php';</script>";
     }
 }
 ?>
@@ -40,27 +39,34 @@ if(isset($_POST["submit"])){
                 <a href="" class="navbar-brand"><img src="images/logo.png" style="height: 50px" alt=""></a>
                 <ul class="header-right ms-auto navbar-nav">
                     <li class="nav-item ms-4">
-                        <a class="nav-link" href="admin.php?id=<?= $id; ?>">Dashboard</a>
+                        <a class="nav-link" href="admin.php">Dashboard</a>
                     </li>
-                    <li class="nav-item ms-4">
-                        <a class="nav-link" href="logout.php">Akun</a>
+                    <li class="nav-item dropdown ms-4">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Akun</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="admin_profile.php">Edit Akun</a></li>
+                        <li><a class="dropdown-item" href="logout.php">Keluar</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         </nav>
     </header>
     <div class="wrapper container">
-        <div class="top-wrapper">
-        <h1 class="mb-3 border-bottom">Owner Dashboard</h1>
-            <?php $n=1; ?>
+        <div class="top-wrapper pt-3 pb-5">
+            <h1 class="mb-3 border-bottom">Owner Dashboard</h1>
             <?php foreach($profile as $prf) : ?>
             <p>Nama Kost    : <?= $prf["name"]; ?></p>
-            <p>Alamat       : <?= $prf["address"]; ?></p>
+            <p>Jenis Kost   : <?= $prf["jenis"]; ?></p>
+            <p>Alamat Kost  : <?= $prf["address"]; ?></p>
             <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
             <?php endforeach; ?>
             <h3 class="mb-3">Tambah Kamar</h3>
             <div class="form-wrapper">
                 <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
+                    <?php foreach($profile as $prf) : ?>
+                        <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
+                    <?php endforeach; ?>
                     <div class="input-group">
                         <input type="text" placeholder="Jenis Kamar" name="name" required>
                     </div>
@@ -93,5 +99,7 @@ if(isset($_POST["submit"])){
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 </body>
 </html>

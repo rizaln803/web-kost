@@ -9,18 +9,16 @@ if(!isset($_SESSION["admin"])){
 
 require 'functions.php';
 $id = $_GET["id"];
-$ids = $_GET["ids"];
-$kamar = query("SELECT * FROM kosts WHERE id = $ids")[0];
-$_POST['id'] = $id;
-$_POST['ids'] = $ids;
-$profile = query("SELECT * FROM admins WHERE id = $id");
+$username = $_SESSION['myusername'];
+$profile = query("SELECT * FROM admins WHERE username = '$username'");
+$kamar = query("SELECT * FROM kosts WHERE id = $id")[0];
 if(isset($_POST["submit"])){
     if(ubah($_POST) > 0){
         echo "<script>alert('Data berhasil diubah.');
-                document.location.href = 'admin.php?id=$id';</script>";
+                document.location.href = 'admin.php';</script>";
     }else{
         echo "<script>alert('Data gagal diubah.');
-                document.location.href = 'admin.php?id=$id';</script>";
+                document.location.href = 'admin.php';</script>";
     }
 }
 ?>
@@ -43,39 +41,44 @@ if(isset($_POST["submit"])){
                 <a href="" class="navbar-brand"><img src="images/logo.png" style="height: 50px" alt=""></a>
                 <ul class="header-right ms-auto navbar-nav">
                     <li class="nav-item ms-4">
-                        <a class="nav-link" href="admin.php?id=<?= $id; ?>">Dashboard</a>
+                        <a class="nav-link" href="admin.php">Dashboard</a>
                     </li>
-                    <li class="nav-item ms-4">
-                        <a class="nav-link" href="logout.php">Akun</a>
+                    <li class="nav-item dropdown ms-4">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Akun</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="admin_profile.php">Edit Akun</a></li>
+                        <li><a class="dropdown-item" href="logout.php">Keluar</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         </nav>
     </header>
     <div class="wrapper container">
-        <div class="top-wrapper">
-        <h1 class="mb-3 border-bottom">Owner Dashboard</h1>
-            <?php $n=1; ?>
+        <div class="top-wrapper pt-3 pb-5">
+            <h1 class="mb-3 border-bottom">Owner Dashboard</h1>
             <?php foreach($profile as $prf) : ?>
             <p>Nama Kost    : <?= $prf["name"]; ?></p>
-            <p>Alamat       : <?= $prf["address"]; ?></p>
+            <p>Jenis Kost   : <?= $prf["jenis"]; ?></p>
+            <p>Alamat Kost  : <?= $prf["address"]; ?></p>
             <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
             <?php endforeach; ?>
             <h3 class="mb-3">Ubah Data Kamar</h3>
             <div class="form-wrapper">
                 <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
-                <input type="hidden" name="gambar_lama" value="<?= $kamar["photo"]; ?>">    
-                <div class="input-group">
+                    <input type="hidden" name="gambar_lama" value="<?= $kamar["photo"]; ?>">
+                    <input type="hidden" name="id" value="<?= $kamar["id"]; ?>">
+                    <div class="input-group">
                         <input type="text" placeholder="Jenis Kamar" name="name" required value="<?= $kamar["name"]; ?>">
                     </div>
                     <div class="input-group">
-                        <input type="number" placeholder="Harga (Rp)" name="price" required value="<?= $kamar["price"]; ?>">
+                            <input type="number" placeholder="Harga (Rp)" name="price" required value="<?= $kamar["price"]; ?>">
                     </div>
                     <div class="input-group">
-                        <input type="text" placeholder="Deskripsi" name="description" value="<?= $kamar["description"]; ?>">
+                            <input type="text" placeholder="Deskripsi" name="description" value="<?= $kamar["description"]; ?>">
                     </div>
-                    <p class="text-secondary m-0">Foto Kamar</p>
-                    <img class="mb-3" width="400" src="img/<?= $kamar["photo"]; ?>" alt="">
+                        <p class="text-secondary m-0">Foto Kamar</p>
+                        <img class="mb-3" width="400" src="img/<?= $kamar["photo"]; ?>" alt="">
                     <div class="input-group">
                         <input type="file" name="photo" accept="image/*">
                     </div>
@@ -98,5 +101,7 @@ if(isset($_POST["submit"])){
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 </body>
 </html>

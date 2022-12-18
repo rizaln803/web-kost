@@ -8,14 +8,17 @@ if(!isset($_SESSION["admin"])){
 }
 
 require 'functions.php';
-
 $username = $_SESSION['myusername'];
 $profile = query("SELECT * FROM admins WHERE username = '$username'");
-foreach($profile as $prf) :
-    $ids = $prf["id"];
-endforeach;
-$kost = query("SELECT * FROM kosts WHERE id_user = $ids");
-
+if(isset($_POST["submit"])){
+    if(adprofile($_POST) > 0){
+        echo "<script>alert('Data berhasil diubah.');
+                document.location.href = 'admin.php';</script>";
+    }else{
+        echo "<script>alert('Data gagal diubah.');
+                document.location.href = 'admin.php';</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +27,8 @@ $kost = query("SELECT * FROM kosts WHERE id_user = $ids");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style_adprofile.css">
     <title>Dashboard : Kost Ketintang</title>
-    <link rel="stylesheet" href="style/style_admin.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
@@ -34,9 +37,6 @@ $kost = query("SELECT * FROM kosts WHERE id_user = $ids");
         <nav class="navbar navbar-expand fixed-top" style="border-bottom: 2px solid #e7e7e7; background: rgba(255, 255, 255, 0.95);">
             <div class="container">
                 <a href="" class="navbar-brand"><img src="images/logo.png" style="height: 50px" alt=""></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-                </button>
                 <ul class="header-right ms-auto navbar-nav">
                     <li class="nav-item ms-4">
                         <a class="nav-link" href="admin.php">Dashboard</a>
@@ -56,45 +56,34 @@ $kost = query("SELECT * FROM kosts WHERE id_user = $ids");
         <div class="top-wrapper pt-3 pb-5">
             <h1 class="mb-3 border-bottom">Owner Dashboard</h1>
             <?php foreach($profile as $prf) : ?>
-            <p>Nama Kost    : <?= $prf["name"]; ?></p>
-            <p>Jenis Kost   : <?= $prf["jenis"]; ?></p>
-            <p>Alamat Kost  : <?= $prf["address"]; ?></p>
-            <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
+            <p>Username    : <?= $prf["username"]; ?></p>
+            <p>Email       : <?= $prf["email"]; ?></p>
             <?php endforeach; ?>
-            <h3 class="mb-3">Daftar Kamar</h3>
-            <a class="btn btn-primary mb-3" name="add" href="add.php">Tambah Kamar</a>
-            <div class="table-responsive">
-                <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">Aksi</th>
-                    <th scope="col">Jenis</th>
-                    <th scope="col">Harga</th>
-                    <th scope="col">Foto</th>
-                    <th scope="col">Deskripsi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i=1; ?>
-                    <?php foreach($kost as $kst) : ?>
-                    <tr>
-                    <th scope="row"><?= $i; ?></th>
-                    <td>
-                        <a class="btn btn-secondary mb-1 me-1 text-decoration-none" href="update.php?id=<?= $kst["id"]; ?>" onclick="
-                        return confirm('Ubah data?');">Ubah</a>
-                        <a class="btn btn-danger text-decoration-none" href="hapus.php?&id=<?= $kst["id"]; ?>" onclick="
-                        return confirm('Hapus data?');">Hapus</a>
-                    </td>
-                    <td><?= $kst["name"]; ?></td>
-                    <td>Rp. <?= $kst["price"]; ?></td>
-                    <td><img width="200" src="img/<?= $kst["photo"]; ?>" alt=""></td>
-                    <td width="300"><?= $kst["description"]; ?></td>
-                    </tr>
-                    <?php $i++; ?>
-                    <?php endforeach; ?>
-                </tbody>
-                </table>
+            <h3 class="mb-3">Edit Akun</h3>
+            <div class="form-wrapper">
+                <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
+                <?php foreach($profile as $prf) : ?>
+                    <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
+                    <div class="input-group">
+                        <input type="text" placeholder="Nama Kost" name="name" required value="<?= $prf["name"]; ?>">
+                    </div>
+                    <div class="input-group">
+                        <select name="jenis" required focus>
+                            <option value="" disabled selected>Jenis Kost</option> 
+                            <option value="Kost Pria">Kost Pria</option>        
+                            <option value="Kost Wanita">Kost Wanita</option>
+                            <option value="Kost Campur">Kost Campur</option>               
+                        </select>
+                    </div>
+                    <div class="input-group">
+                            <input type="text" placeholder="Alamat Kost" name="address" required value="<?= $prf["address"]; ?>">
+                    </div>
+                    <div class="input-group">
+                            <input type="number" placeholder="Nomor HP" name="phone" value="<?= $prf["phone"]; ?>">
+                    </div>
+                <?php endforeach; ?>
+                    <button class="btn btn-primary mb-2" name="submit">Edit Akun</button>
+                </form>
             </div>
         </div>
     </div>
