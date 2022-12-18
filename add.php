@@ -57,7 +57,7 @@ if(isset($_POST["submit"])){
             <h1 class="mb-3 border-bottom">Owner Dashboard</h1>
             <?php foreach($profile as $prf) : ?>
             <p>Nama Kost    : <?= $prf["name"]; ?></p>
-            <p>Jenis Kost   : <?= $prf["jenis"]; ?></p>
+            <p>Jenis Kost   : <?= $prf["type"]; ?></p>
             <p>Alamat Kost  : <?= $prf["address"]; ?></p>
             <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
             <?php endforeach; ?>
@@ -68,13 +68,16 @@ if(isset($_POST["submit"])){
                         <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
                     <?php endforeach; ?>
                     <div class="input-group">
-                        <input type="text" placeholder="Jenis Kamar" name="name" required>
+                        <input type="text" placeholder="Jenis Kamar" name="room_name" required>
                     </div>
                     <div class="input-group">
                         <input type="number" placeholder="Harga (Rp)" name="price" required>
                     </div>
                     <div class="input-group">
                         <input type="text" placeholder="Deskripsi" name="description">
+                    </div>
+                    <div class="input-group">
+                        <input type="number" placeholder="Jumlah Kamar" name="stock" required>
                     </div>
                     <p class="text-secondary m-0">Foto Kamar</p>
                     <div class="input-group">

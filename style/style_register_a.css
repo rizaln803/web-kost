@@ -7,6 +7,31 @@
     font-family: 'Poppins', sans-serif;
 }
 
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    }
+
+    input[type=number] {
+        -moz-appearance:textfield; /* Firefox */
+    }
+
+    .column {
+        float: left;
+        width: 50%;
+        padding-right: 15px;
+    }
+      
+      /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+        padding-left: 15px;
+    }
+
     .header-center input[type=text]{
         border: 2px solid #e7e7e7;
         margin: 10px 0px 10px 10px;
@@ -58,7 +83,7 @@
     }
 
     .top-wrapper{
-        width: 400px;
+        width: 800px;
         min-height: 400px;
         background: white;
         border-radius: 5px;
@@ -132,6 +157,7 @@
         font-weight: 500;
         font-size: 1rem;
         margin-bottom: 20px;
+        text-align: center;
     }
 
     .top-wrapper .login-text{

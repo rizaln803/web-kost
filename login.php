@@ -27,20 +27,21 @@ if(isset($_POST["login"])){
         $row = mysqli_fetch_assoc($result_a);
         if(password_verify($password, $row["password"])){
             $_SESSION["login"] = true;
+            $_SESSION['myusername']= $username;
             header("Location: index.php");
             exit;
         }else{
             echo "<script>alert('Password salah!');</script>";
         }
-    }else if(mysqli_num_rows($result_a_1) == 1){
-        $row = mysqli_fetch_assoc($result_a_1);
-        if(password_verify($password, $row["password"])){
-            $_SESSION["login"] = true;
-            header("Location: index.php");
-            exit;
-        }else{
-            echo "<script>alert('Password salah!');</script>";
-        }
+    // }else if(mysqli_num_rows($result_a_1) == 1){
+    //     $row = mysqli_fetch_assoc($result_a_1);
+    //     if(password_verify($password, $row["password"])){
+    //         $_SESSION["login"] = true;
+    //         header("Location: index.php");
+    //         exit;
+    //     }else{
+    //         echo "<script>alert('Password salah!');</script>";
+    //     }
     }else if(mysqli_num_rows($result_b) == 1){
         $row = mysqli_fetch_assoc($result_b);
         if(password_verify($password, $row["password"])){
@@ -125,7 +126,7 @@ if(isset($_POST["login"])){
                 <p class="title-text">Kost Ketintang</h1>
                 <p class="login-text">Login Form</p>
                 <div class="input-group">
-                    <input type="text" placeholder="Username / Email" name="username" required>
+                    <input type="text" placeholder="Username" name="username" required>
                 </div>
                 <div class="input-group">
                     <input type="password" placeholder="Password" name="password" required>

@@ -59,7 +59,7 @@ if(isset($_POST["submit"])){
             <h1 class="mb-3 border-bottom">Owner Dashboard</h1>
             <?php foreach($profile as $prf) : ?>
             <p>Nama Kost    : <?= $prf["name"]; ?></p>
-            <p>Jenis Kost   : <?= $prf["jenis"]; ?></p>
+            <p>Jenis Kost   : <?= $prf["type"]; ?></p>
             <p>Alamat Kost  : <?= $prf["address"]; ?></p>
             <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
             <?php endforeach; ?>
@@ -69,13 +69,16 @@ if(isset($_POST["submit"])){
                     <input type="hidden" name="gambar_lama" value="<?= $kamar["photo"]; ?>">
                     <input type="hidden" name="id" value="<?= $kamar["id"]; ?>">
                     <div class="input-group">
-                        <input type="text" placeholder="Jenis Kamar" name="name" required value="<?= $kamar["name"]; ?>">
+                        <input type="text" placeholder="Jenis Kamar" name="name" required value="<?= $kamar["room_name"]; ?>">
                     </div>
                     <div class="input-group">
                             <input type="number" placeholder="Harga (Rp)" name="price" required value="<?= $kamar["price"]; ?>">
                     </div>
                     <div class="input-group">
                             <input type="text" placeholder="Deskripsi" name="description" value="<?= $kamar["description"]; ?>">
+                    </div>
+                    <div class="input-group">
+                            <input type="number" placeholder="Jumlah Kamar" name="stock" required value="<?= $kamar["stock"]; ?>">
                     </div>
                         <p class="text-secondary m-0">Foto Kamar</p>
                         <img class="mb-3" width="400" src="img/<?= $kamar["photo"]; ?>" alt="">

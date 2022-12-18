@@ -72,6 +72,8 @@ if(isset($_POST["register"])){
             <form action="" method="post" autocomplete="off">
                 <p class="title-text">Kost Ketintang</h1>
                 <p class="register-text">Registration Form</p>
+                <div class="rows">
+                <div class="column">
                 <div class="input-group">
                     <input type="text" placeholder="Username" name="username" required>
                 </div>
@@ -79,10 +81,20 @@ if(isset($_POST["register"])){
                     <input type="email" placeholder="Email" name="email" required>
                 </div>
                 <div class="input-group">
+                    <input type="text" placeholder="Nama Lengkap" name="name" required>
+                </div>
+                </div>
+                <div class="column">
+                <div class="input-group">
+                    <input type="number" placeholder="Nomor HP" name="phone" required>
+                </div>
+                <div class="input-group">
                     <input type="password" placeholder="Password" name="password" required>
                 </div>
                 <div class="input-group">
                     <input type="password" placeholder="Konfirmasi Password" name="cpassword" required>
+                </div>
+                </div>
                 </div>
                 <div class="input-group">
                     <button type="submit" name="register" class="btn">Register</button>

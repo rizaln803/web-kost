@@ -17,9 +17,10 @@ function query($query){
 function tambah($data){
     global $conn;
 
-    $name = htmlspecialchars($data["name"]);
+    $room_name = htmlspecialchars($data["room_name"]);
     $price = htmlspecialchars($data["price"]);
     $description = htmlspecialchars($data["description"]);
+    $stock = $data["stock"];
     $ids = $data["id"];
 
     $photo = upload();
@@ -29,7 +30,7 @@ function tambah($data){
 
     $query = "INSERT INTO kosts 
                 VALUES
-            ('', '$name', '$photo', '$price', '$description', '$ids')
+            ('', '$room_name', '$photo', '$price', '$description', '$stock','$ids')
             ";
     mysqli_query($conn, $query);
 
@@ -73,6 +74,8 @@ function registrasi_a($data){
 
     $username = strtolower(stripslashes($data["username"]));
     $email = strtolower($data["email"]);
+    $name = ($data["name"]);
+    $phone = ($data["phone"]);
     $password = mysqli_real_escape_string($conn, $data["password"]);
     $cpassword = mysqli_real_escape_string($conn, $data["cpassword"]);
 
@@ -97,7 +100,7 @@ function registrasi_a($data){
 
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    mysqli_query($conn, "INSERT INTO users VALUES('', '$username', '$email', '$password')");
+    mysqli_query($conn, "INSERT INTO users VALUES('', '$username', '$name', '$phone', '$email', '$password')");
 
     return mysqli_affected_rows($conn);
 }
@@ -108,7 +111,7 @@ function registrasi_b($data){
     $username = strtolower(stripslashes($data["username"]));
     $email = strtolower($data["email"]);
     $name = ($data["name"]);
-    $jenis = ($data["jenis"]);
+    $type = ($data["type"]);
     $address = ($data["address"]);
     $phone = ($data["phone"]);
     $password = mysqli_real_escape_string($conn, $data["password"]);
@@ -135,7 +138,7 @@ function registrasi_b($data){
 
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    mysqli_query($conn, "INSERT INTO admins VALUES('', '$username', '$name', '$jenis', '$address', '$phone', '$email', '$password')");
+    mysqli_query($conn, "INSERT INTO admins VALUES('', '$username', '$name', '$type', '$address', '$phone', '$email', '$password')");
 
     return mysqli_affected_rows($conn);
 }
@@ -150,9 +153,10 @@ function hapus($id){
 function ubah($data){
     global $conn;
 
-    $name = htmlspecialchars($data["name"]);
+    $room_name = htmlspecialchars($data["room_name"]);
     $price = htmlspecialchars($data["price"]);
     $description = htmlspecialchars($data["description"]);
+    $stock = $data["stock"];
     $ids = $data["id"];
     
     if($_FILES['photo']['error'] === 4){
@@ -162,9 +166,10 @@ function ubah($data){
     }
 
     $query = "UPDATE kosts SET
-                name = '$name',
+                room_name = '$room_name',
                 price = '$price',
                 photo = '$photo',
+                stock = '$stock',
                 description = '$description'
             WHERE id = $ids
             ";
@@ -177,14 +182,14 @@ function adprofile($data){
     global $conn;
 
     $name = ($data["name"]);
-    $jenis = ($data["jenis"]);
+    $type = ($data["type"]);
     $address = ($data["address"]);
     $phone = ($data["phone"]);
     $ids = $data["id"];
 
     $query = "UPDATE admins SET
                 name = '$name',
-                jenis = '$jenis',
+                type = '$type',
                 address = '$address',
                 phone = '$phone'
             WHERE id = $ids
@@ -194,8 +199,25 @@ function adprofile($data){
     return mysqli_affected_rows($conn);
 }
 
+function usprofile($data){
+    global $conn;
+
+    $name = ($data["name"]);
+    $phone = ($data["phone"]);
+    $ids = $data["id"];
+
+    $query = "UPDATE users SET
+                name = '$name',
+                phone = '$phone'
+            WHERE id = $ids
+            ";
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
 function cari($masukan){
-    $query = "SELECT * FROM admins WHERE name LIKE '%$masukan%'";
+    $query = "SELECT * FROM kosts WHERE name LIKE '%$masukan%'";
     return query($query);
 }
 

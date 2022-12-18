@@ -57,7 +57,7 @@ $kost = query("SELECT * FROM kosts WHERE id_user = $ids");
             <h1 class="mb-3 border-bottom">Owner Dashboard</h1>
             <?php foreach($profile as $prf) : ?>
             <p>Nama Kost    : <?= $prf["name"]; ?></p>
-            <p>Jenis Kost   : <?= $prf["jenis"]; ?></p>
+            <p>Jenis Kost   : <?= $prf["type"]; ?></p>
             <p>Alamat Kost  : <?= $prf["address"]; ?></p>
             <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
             <?php endforeach; ?>
@@ -73,6 +73,7 @@ $kost = query("SELECT * FROM kosts WHERE id_user = $ids");
                     <th scope="col">Harga</th>
                     <th scope="col">Foto</th>
                     <th scope="col">Deskripsi</th>
+                    <th scope="col">Jumlah</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,15 +82,15 @@ $kost = query("SELECT * FROM kosts WHERE id_user = $ids");
                     <tr>
                     <th scope="row"><?= $i; ?></th>
                     <td>
-                        <a class="btn btn-secondary mb-1 me-1 text-decoration-none" href="update.php?id=<?= $kst["id"]; ?>" onclick="
-                        return confirm('Ubah data?');">Ubah</a>
+                        <a class="btn btn-secondary mb-1 me-1 text-decoration-none" href="update.php?id=<?= $kst["id"]; ?>">Ubah</a>
                         <a class="btn btn-danger text-decoration-none" href="hapus.php?&id=<?= $kst["id"]; ?>" onclick="
                         return confirm('Hapus data?');">Hapus</a>
                     </td>
-                    <td><?= $kst["name"]; ?></td>
+                    <td><?= $kst["room_name"]; ?></td>
                     <td>Rp. <?= $kst["price"]; ?></td>
                     <td><img width="200" src="img/<?= $kst["photo"]; ?>" alt=""></td>
                     <td width="300"><?= $kst["description"]; ?></td>
+                    <td><?= $kst["stock"]; ?></td>
                     </tr>
                     <?php $i++; ?>
                     <?php endforeach; ?>

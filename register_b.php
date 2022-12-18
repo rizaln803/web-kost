@@ -78,26 +78,26 @@ if(isset($_POST["register"])){
                     <input type="text" placeholder="Username" name="username" required>
                 </div>
                 <div class="input-group">
+                    <input type="email" placeholder="Email" name="email" required>
+                </div>
+                <div class="input-group">
                     <input type="text" placeholder="Nama Kost" name="name" required>
                 </div>
                 <div class="input-group">
                     <input type="text" placeholder="Alamat Kost" name="address" required>
                 </div>
-                <div class="input-group">
-                    <select name="jenis" required focus>
-                        <option value="" disabled selected>Jenis Kost</option> 
-                        <option value="Kost Pria">Kost Pria</option>        
-                        <option value="Kost Wanita">Kost Wanita</option>
-                        <option value="Kost Campur">Kost Campur</option>               
-                    </select>
-                </div>
                 </div>
                 <div class="column">
                 <div class="input-group">
-                    <input type="number" placeholder="Nomor HP" name="phone" required>
+                    <select name="type" required focus>
+                        <option value="" disabled selected>Jenis Kost</option> 
+                        <option value="Kost Putra">Kost Putra</option>        
+                        <option value="Kost Putri">Kost Putri</option>
+                        <option value="Kost Campur">Kost Campur</option>               
+                    </select>
                 </div>
                 <div class="input-group">
-                    <input type="email" placeholder="Email" name="email" required>
+                    <input type="number" placeholder="Nomor HP" name="phone" required>
                 </div>
                 <div class="input-group">
                     <input type="password" placeholder="Password" name="password" required>

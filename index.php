@@ -8,7 +8,10 @@ if(!isset($_SESSION["login"])){
 }
 
 require 'functions.php';
-$kost = query("SELECT * FROM kosts ORDER BY id DESC");
+$kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user ORDER BY kosts.id DESC");
+$cowok = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Putra' ORDER BY kosts.id DESC");
+$cewek = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Putri' ORDER BY kosts.id DESC");
+$campur = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Campur' ORDER BY kosts.id DESC");
 
 if(isset($_POST["cari"])){
     $kost = cari($_POST["masukan"]);
@@ -42,7 +45,7 @@ if(isset($_POST["cari"])){
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="header-right ms-auto navbar-nav">
                     <li class="nav-item ms-4">
-                        <a class="nav-link" href="">Beranda</a>
+                        <a class="nav-link" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item ms-4">
                         <a class="nav-link" href="">Kategori</a>
@@ -50,30 +53,94 @@ if(isset($_POST["cari"])){
                     <li class="nav-item ms-4">
                         <a class="nav-link" href="">Bantuan</a>
                     </li>
-                    <li class="nav-item ms-4">
-                        <a class="nav-link" href="logout.php">Masuk</a>
+                    <li class="nav-item dropdown ms-4">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Akun</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="user_profile.php">Edit Akun</a></li>
+                        <li><a class="dropdown-item" href="logout.php">Keluar</a></li>
+                        </ul>
                     </li>
                 </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="wrapper">
-        <div class="catalog-wrapper border border-muted pt-3 pb-5 rounded-3 border-2">
-            <a class="text-decoration-none m-3 h1 catalog-title" href="">Daftar Kamar</a>
-            <?php foreach($kost as $kmr) : ?>
-            <div class="catalog m-3 p-3 border border-muted rounded-3 border-2 w-50">
-                <a href=""><img class="mb-3 w-100" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
-                <?php 
-                $ids = $kmr["id_user"];
-                $owner = query("SELECT * FROM admins WHERE id = $ids");
-                foreach($owner as $own) : ?>
-                <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $own["name"]; ?> (<?= $kmr["name"]; ?>)</a>
-                <p class="mt-2 mb-1"><?= $own["address"]; ?></p>
+    <div class="wrapper container">
+        <div class="top-wrapper">
+            <div class="catalog-wrapper border border-muted pt-3 pb-5 rounded-3 border-2 row">
+                <a class="ps-0 text-decoration-none h1 catalog-title border-bottom" href="">Kamar Kost Terbaru</a>
+                <?php $i=1; ?>
+                <?php foreach($kost as $kmr) : ?>
+                <?php if($i == '5') {
+                        break;
+                    }
+                ?>
+                <div class="catalog col m-3 p-3 border border-muted rounded-3 border-2">
+                    <a href=""><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
+                    <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
+                    <p class="mt-2 mb-1"><?= $kmr["address"]; ?></p>
+                    <p>Rp. <?= $kmr["price"]; ?></p>
+                </div>
+                <?php $i++; ?>
                 <?php endforeach; ?>
-                <p>Rp. <?= $kmr["price"]; ?></p>
             </div>
-            <?php endforeach; ?>
+        </div>
+        <div class="top-wrapper">
+            <div class="catalog-wrapper border border-muted pt-3 pb-5 rounded-3 border-2 row">
+                <a class="ps-0 text-decoration-none h1 catalog-title border-bottom" href="">Kamar Kost Putra Terbaru</a>
+                <?php $i=1; ?>
+                <?php foreach($cowok as $kmr) : ?>
+                <?php if($i == '5') {
+                        break;
+                    }
+                ?>
+                <div class="catalog col m-3 p-3 border border-muted rounded-3 border-2">
+                    <a href=""><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
+                    <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
+                    <p class="mt-2 mb-1"><?= $kmr["address"]; ?></p>
+                    <p>Rp. <?= $kmr["price"]; ?></p>
+                </div>
+                <?php $i++; ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div class="top-wrapper">
+            <div class="catalog-wrapper border border-muted pt-3 pb-5 rounded-3 border-2 row">
+                <a class="ps-0 text-decoration-none h1 catalog-title border-bottom" href="">Kamar Kost Putri Terbaru</a>
+                <?php $i=1; ?>
+                <?php foreach($cewek as $kmr) : ?>
+                <?php if($i == '5') {
+                        break;
+                    }
+                ?>
+                <div class="catalog col m-3 p-3 border border-muted rounded-3 border-2">
+                    <a href=""><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
+                    <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
+                    <p class="mt-2 mb-1"><?= $kmr["address"]; ?></p>
+                    <p>Rp. <?= $kmr["price"]; ?></p>
+                </div>
+                <?php $i++; ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <div class="top-wrapper">
+            <div class="catalog-wrapper border border-muted pt-3 pb-5 rounded-3 border-2 row">
+                <a class="ps-0 text-decoration-none h1 catalog-title border-bottom" href="">Kamar Kost Campur Terbaru</a>
+                <?php $i=1; ?>
+                <?php foreach($campur as $kmr) : ?>
+                <?php if($i == '5') {
+                        break;
+                    }
+                ?>
+                <div class="catalog col m-3 p-3 border border-muted rounded-3 border-2">
+                    <a href=""><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
+                    <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
+                    <p class="mt-2 mb-1"><?= $kmr["address"]; ?></p>
+                    <p>Rp. <?= $kmr["price"]; ?></p>
+                </div>
+                <?php $i++; ?>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
     <footer>
@@ -90,5 +157,7 @@ if(isset($_POST["cari"])){
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 </body>
 </html>
