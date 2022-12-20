@@ -14,65 +14,12 @@ if(isset($_SESSION["admin"])){
 
 require 'functions.php';
 
-if(isset($_POST["login"])){
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-
-    $result_a = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username'");
-    $result_a_1 = mysqli_query($conn, "SELECT * FROM users WHERE email = '$username'");
-    $result_b = mysqli_query($conn, "SELECT * FROM admins WHERE username = '$username'");
-    $result_b_1 = mysqli_query($conn, "SELECT * FROM admins WHERE email = '$username'");
-
-    if(mysqli_num_rows($result_a) == 1){
-        $row = mysqli_fetch_assoc($result_a);
-        if(password_verify($password, $row["password"])){
-            $_SESSION["login"] = true;
-            $_SESSION['myusername']= $username;
-            header("Location: index.php");
-            exit;
-        }else{
-            echo "<script>alert('Password salah!');</script>";
-        }
-    // }else if(mysqli_num_rows($result_a_1) == 1){
-    //     $row = mysqli_fetch_assoc($result_a_1);
-    //     if(password_verify($password, $row["password"])){
-    //         $_SESSION["login"] = true;
-    //         header("Location: index.php");
-    //         exit;
-    //     }else{
-    //         echo "<script>alert('Password salah!');</script>";
-    //     }
-    }else if(mysqli_num_rows($result_b) == 1){
-        $row = mysqli_fetch_assoc($result_b);
-        if(password_verify($password, $row["password"])){
-            $query = "SELECT id FROM admins WHERE username='$username'";
-            $result = mysqli_query($conn, $query) or die(mysql_error());
-            $rows = mysqli_fetch_array($result);
-            if(isset($rows['id']) && $rows['id'] > 0){
-                $_SESSION["admin"] = true;
-                $_SESSION['myusername']= $username;
-                header("Location: admin.php");
-            }
-            exit;
-        }else{
-            echo "<script>alert('Password salah!');</script>";
-        }
-    // }else if(mysqli_num_rows($result_b_1) == 1){
-    //     $row = mysqli_fetch_assoc($result_b_1);
-    //     if(password_verify($password, $row["password"])){
-    //         $query = "SELECT id FROM admins WHERE username='$username'";
-    //         $result = mysqli_query($conn, $query) or die(mysql_error());
-    //         $rows = mysqli_fetch_array($result);
-    //         if(isset($rows['id']) && $rows['id'] > 0){
-    //             $_SESSION["admin"] = true;
-    //             header("Location: admin.php?id=");
-    //         }
-    //         exit;
-    //     }else{
-    //         echo "<script>alert('Password salah!');</script>";
-    //     }
+if(isset($_POST["register"])){
+    if(registrasi_a($_POST) > 0){
+        echo "<script>alert('Registrasi berhasil.');
+                document.location.href = 'login.php';</script>";
     }else{
-        echo "<script>alert('Username atau email tidak terdaftar!');</script>";
+        echo mysqli_error($conn);
     }
 }
 
@@ -90,8 +37,8 @@ if(isset($_POST["cari"])){
     <meta charset="utf-8">
     <meta name="viewport" content="width-device-width, initial-scale-1.0">
 
-    <link rel="stylesheet" type="text/css" href="style/style_login.css">
-    <title>Login : Kost Ketintang</title>
+    <link rel="stylesheet" type="text/css" href="style/style_register_a.css">
+    <title>Register : Kost Ketintang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
@@ -130,17 +77,35 @@ if(isset($_POST["cari"])){
         <div class="top-wrapper">
             <form action="" method="post" autocomplete="off">
                 <p class="title-text">Kost Ketintang</h1>
-                <p class="login-text">Login Form</p>
+                <p class="register-text">Registration Form</p>
+                <div class="rows">
+                <div class="column">
                 <div class="input-group">
                     <input type="text" placeholder="Username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <input type="email" placeholder="Email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" placeholder="Nama Lengkap" name="name" required>
+                </div>
+                </div>
+                <div class="column">
+                <div class="input-group">
+                    <input type="number" placeholder="Nomor HP" name="phone" required>
                 </div>
                 <div class="input-group">
                     <input type="password" placeholder="Password" name="password" required>
                 </div>
                 <div class="input-group">
-                    <button name="login" type="submit" class="btn">Login</button>
+                    <input type="password" placeholder="Konfirmasi Password" name="cpassword" required>
                 </div>
-                <p class="description-text">Belum punya akun? Daftar sebagai <a class ="register-text" href="register_user.php">pencari kos</a> atau sebagai <a class ="register-text" href="register_admin.php">pemilik kos</a></p>
+                </div>
+                </div>
+                <div class="input-group">
+                    <button type="submit" name="register" class="btn">Register</button>
+                </div>
+                <p class="description-text">Sudah punya akun? Masuk di <a class ="login-text" href="login.php">sini</a></p>
             </form>
         </div>
     </div>
@@ -159,6 +124,6 @@ if(isset($_POST["cari"])){
             </div>
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 </body>
 </html>

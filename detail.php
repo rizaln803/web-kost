@@ -1,24 +1,27 @@
 <?php
 
-session_start();
+// session_start();
 
-if(!isset($_SESSION["login"])){
-    header("Location: login.php");
-    exit;
-}
+// if(!isset($_SESSION["login"])){
+//     header("Location: login.php");
+//     exit;
+// }
 
 require 'functions.php';
-$username = $_SESSION['myusername'];
-$profile = query("SELECT * FROM users WHERE username = '$username'");
-if(isset($_POST["submit"])){
-    if(usprofile($_POST) > 0){
-        echo "<script>alert('Data berhasil diubah.');
-                document.location.href = 'index.php';</script>";
-    }else{
-        echo "<script>alert('Data gagal diubah.');
-                document.location.href = 'index.php';</script>";
-    }
-}
+// $username = $_SESSION['myusername'];
+// $profile = query("SELECT * FROM users WHERE username = '$username'");
+// if(isset($_POST["submit"])){
+//     if(usprofile($_POST) > 0){
+//         echo "<script>alert('Data berhasil diubah.');
+//                 document.location.href = 'index.php';</script>";
+//     }else{
+//         echo "<script>alert('Data gagal diubah.');
+//                 document.location.href = 'index.php';</script>";
+//     }
+// }
+
+$profile = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE kosts.id = 18");
+$komen = query("SELECT * FROM comments WHERE id_room = 18");
 
 if(isset($_POST["cari"])){
     $_SESSION['mysearch']= $_POST["masukan"];
@@ -75,26 +78,46 @@ if(isset($_POST["cari"])){
     </header>
     <div class="wrapper container">
         <div class="top-wrapper border border-muted pt-3 pb-5 rounded-3 border-2">
-            <h1 class="mb-3 border-bottom">User Dashboard</h1>
-            <?php foreach($profile as $prf) : ?>
-            <p>Username    : <?= $prf["username"]; ?></p>
-            <p>Email       : <?= $prf["email"]; ?></p>
-            <?php endforeach; ?>
-            <h3 class="mb-3">Edit Akun</h3>
-            <div class="form-wrapper">
-                <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
-                <?php foreach($profile as $prf) : ?>
-                    <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
-                    <div class="input-group">
-                        <input type="text" placeholder="Nama Lengkap" name="name" required value="<?= $prf["name"]; ?>">
-                    </div>
-                    <div class="input-group">
-                        <input type="number" placeholder="Nomor HP" name="phone" value="<?= $prf["phone"]; ?>">
-                    </div>
+        <h1 class="mb-3 border-bottom">Detail Kamar Kost</h1>    
+        <div class="form-wrapper">
+                <?php foreach($profile as $kmr) : ?>
+                    <img class="mb-3" height=400 src="img/<?= $kmr["photo"]; ?>" alt="">
+                    <h1 class="mb-3" style="color: #74b9ff;"><?= $kmr["name"]; ?> (<?= $kmr["room_name"]; ?>)</h1>
+                    <p class="mt-2 h5 p-2 mb-1 me-1 bg-warning text-white d-inline-block rounded-3"><?= $kmr["type"]; ?></p>
+                    <p class="mt-2 h5 p-2 mb-1 bg-danger text-white d-inline-block rounded-3">Sisa Kamar: <?= $kmr["stock"]; ?></p>
+                    <p class="mt-2 h5 mb-3">Alamat: <?= $kmr["address"]; ?></p>
+                    <h3 class="mb-1 border-bottom d-inline-block">Deskripsi</h3>
+                    <p class="mt-1 w-50 mb-3"><?= $kmr["description"]; ?></p>
+                    <p class="h5 p-2 mb-1 bg-success text-white d-inline-block rounded-3">Rp. <?= $kmr["price"]; ?>/bulan</p>
                 <?php endforeach; ?>
-                    <button class="btn btn-primary mb-2" name="submit">Edit Akun</button>
-                </form>
+                <a class="btn h5 p-2 btn-primary mt-2 d-block rounded-3 mb-3" name="rent" href="add_room.php">Ajukan Sewa</a>
             </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8">
+                    <div class="headings d-flex justify-content-between align-items-center mb-2">
+                        <h3 class="text-center border-bottom">Diskusi</h3>
+                    </div>
+                    <?php foreach($komen as $kmn) : ?>
+                    <div class="card p-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="user d-flex flex-row align-items-center">
+                        <span><small class="font-weight-bold text-primary"><?= $kmn["comment_name"]; ?></small> <small class="font-weight-bold"><?= $kmn["comment"]; ?></small></span>
+                        </div>
+                        <small><?= $kmn["date"]; ?></small>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                    <form action="" method="post" autocomplete="off">
+                        <div>
+                            <input class="mb-3 small w-100 p-3 rounded-2" type="text" placeholder="Ada Pertanyaan?" name="question" required>
+                        </div>
+                        <div>
+                            <button class="p w-100 p-3" name="post_comment" type="submit" class="btn">Tanya</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
     <footer>

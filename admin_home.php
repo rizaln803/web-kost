@@ -2,25 +2,20 @@
 
 session_start();
 
-if(isset($_SESSION["login"])){
-    header("Location: user_home.php");
-    exit;
-}
-
-if(isset($_SESSION["admin"])){
-    header("Location: admin_home.php");
+if(!isset($_SESSION["admin"])){
+    header("Location: login.php");
     exit;
 }
 
 require 'functions.php';
 $kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user ORDER BY kosts.id DESC");
-$cowok = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user ORDER BY kosts.price ASC");
+$cowok = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Putra' ORDER BY kosts.id DESC");
 $cewek = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Putri' ORDER BY kosts.id DESC");
 $campur = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Campur' ORDER BY kosts.id DESC");
 
 if(isset($_POST["cari"])){
     $_SESSION['mysearch']= $_POST["masukan"];
-    header("Location: search.php");
+    header("Location: search_admin.php");
     exit;
 }
 
@@ -52,6 +47,9 @@ if(isset($_POST["cari"])){
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="header-right ms-auto navbar-nav">
                     <li class="nav-item ms-4">
+                        <a class="nav-link" href="admin.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item ms-4">
                         <a class="nav-link" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item ms-4">
@@ -60,8 +58,12 @@ if(isset($_POST["cari"])){
                     <li class="nav-item ms-4">
                         <a class="nav-link" href="">Bantuan</a>
                     </li>
-                    <li class="nav-item ms-4">
-                        <a class="nav-link" href="login.php">Masuk</a>
+                    <li class="nav-item dropdown ms-4">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Akun</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="admin_profile.php">Edit Akun</a></li>
+                        <li><a class="dropdown-item" href="logout.php">Keluar</a></li>
+                        </ul>
                     </li>
                 </ul>
                 </div>
@@ -92,7 +94,7 @@ if(isset($_POST["cari"])){
         </div>
         <div class="top-wrapper">
             <div class="catalog-wrapper border border-muted pt-3 pb-5 rounded-3 border-2 row">
-                <a class="ps-0 text-decoration-none h1 catalog-title border-bottom" href="">Kamar Kost Termurah</a>
+                <a class="ps-0 text-decoration-none h1 catalog-title border-bottom" href="">Kamar Kost Putra Terbaru</a>
                 <?php $i=1; ?>
                 <?php foreach($cowok as $kmr) : ?>
                 <?php if($i == '5') {

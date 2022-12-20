@@ -8,20 +8,25 @@ if(!isset($_SESSION["admin"])){
 }
 
 require 'functions.php';
-
+$id = $_GET["id"];
 $username = $_SESSION['myusername'];
 $profile = query("SELECT * FROM admins WHERE username = '$username'");
-foreach($profile as $prf) :
-    $ids = $prf["id"];
-endforeach;
-$kost = query("SELECT * FROM kosts WHERE id_user = $ids");
+$kamar = query("SELECT * FROM kosts WHERE id = $id")[0];
+if(isset($_POST["submit"])){
+    if(ubah($_POST) > 0){
+        echo "<script>alert('Data berhasil diubah.');
+                document.location.href = 'admin.php';</script>";
+    }else{
+        echo "<script>alert('Data gagal diubah.');
+                document.location.href = 'admin.php';</script>";
+    }
+}
 
 if(isset($_POST["cari"])){
     $_SESSION['mysearch']= $_POST["masukan"];
     header("Location: search_admin.php");
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -30,8 +35,8 @@ if(isset($_POST["cari"])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style_update.css">
     <title>Dashboard : Kost Ketintang</title>
-    <link rel="stylesheet" href="style/style_admin.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
@@ -82,41 +87,30 @@ if(isset($_POST["cari"])){
             <p>Alamat Kost  : <?= $prf["address"]; ?></p>
             <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
             <?php endforeach; ?>
-            <h3 class="mb-3">Daftar Kamar</h3>
-            <a class="btn btn-primary mb-3" name="add" href="add_room.php">Tambah Kamar</a>
-            <div class="table-responsive">
-                <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">Aksi</th>
-                    <th scope="col">Jenis</th>
-                    <th scope="col">Harga</th>
-                    <th scope="col">Foto</th>
-                    <th scope="col">Deskripsi</th>
-                    <th scope="col">Jumlah</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i=1; ?>
-                    <?php foreach($kost as $kst) : ?>
-                    <tr>
-                    <th scope="row"><?= $i; ?></th>
-                    <td>
-                        <a class="btn btn-secondary mb-1 me-1 text-decoration-none" href="update_room.php?id=<?= $kst["id"]; ?>">Ubah</a>
-                        <a class="btn btn-danger text-decoration-none" href="delete_room.php?&id=<?= $kst["id"]; ?>" onclick="
-                        return confirm('Hapus data?');">Hapus</a>
-                    </td>
-                    <td><?= $kst["room_name"]; ?></td>
-                    <td>Rp. <?= $kst["price"]; ?></td>
-                    <td><img width="200" src="img/<?= $kst["photo"]; ?>" alt=""></td>
-                    <td width="300"><?= $kst["description"]; ?></td>
-                    <td><?= $kst["stock"]; ?></td>
-                    </tr>
-                    <?php $i++; ?>
-                    <?php endforeach; ?>
-                </tbody>
-                </table>
+            <h3 class="mb-3">Ubah Data Kamar</h3>
+            <div class="form-wrapper">
+                <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
+                    <input type="hidden" name="gambar_lama" value="<?= $kamar["photo"]; ?>">
+                    <input type="hidden" name="id" value="<?= $kamar["id"]; ?>">
+                    <div class="input-group">
+                        <input type="text" placeholder="Jenis Kamar" name="room_name" required value="<?= $kamar["room_name"]; ?>">
+                    </div>
+                    <div class="input-group">
+                            <input type="number" placeholder="Harga (Rp)" name="price" required value="<?= $kamar["price"]; ?>">
+                    </div>
+                    <div class="input-group">
+                            <input type="text" placeholder="Deskripsi" name="description" value="<?= $kamar["description"]; ?>">
+                    </div>
+                    <div class="input-group">
+                            <input type="number" placeholder="Jumlah Kamar" name="stock" required value="<?= $kamar["stock"]; ?>">
+                    </div>
+                        <p class="text-secondary m-0">Foto Kamar</p>
+                        <img class="mb-3" width="400" src="img/<?= $kamar["photo"]; ?>" alt="">
+                    <div class="input-group">
+                        <input type="file" name="photo" accept="image/*">
+                    </div>
+                    <button class="btn btn-primary mb-2" name="submit">Ubah Data</button>
+                </form>
             </div>
         </div>
     </div>

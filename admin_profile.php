@@ -19,6 +19,12 @@ if(isset($_POST["submit"])){
                 document.location.href = 'admin.php';</script>";
     }
 }
+
+if(isset($_POST["cari"])){
+    $_SESSION['mysearch']= $_POST["masukan"];
+    header("Location: search_admin.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,10 +42,27 @@ if(isset($_POST["submit"])){
     <header>
         <nav class="navbar navbar-expand fixed-top" style="border-bottom: 2px solid #e7e7e7; background: rgba(255, 255, 255, 0.95);">
             <div class="container">
-                <a href="" class="navbar-brand"><img src="images/logo.png" style="height: 50px" alt=""></a>
+                <a href="index.php" class="navbar-brand"><img src="images/logo.png" style="height: 50px" alt=""></a>
+                <form class="header-center ms-3 me-auto d-flex" action="" method="post">
+                    <input class="form-control" name="masukan" type="text" placeholder="Cari Kost..." autocomplete="off">
+                    <button class="btn" name="cari" type="submit">Cari</i></button>
+                </form>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="header-right ms-auto navbar-nav">
                     <li class="nav-item ms-4">
                         <a class="nav-link" href="admin.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item ms-4">
+                        <a class="nav-link" href="index.php">Beranda</a>
+                    </li>
+                    <li class="nav-item ms-4">
+                        <a class="nav-link" href="">Kategori</a>
+                    </li>
+                    <li class="nav-item ms-4">
+                        <a class="nav-link" href="">Bantuan</a>
                     </li>
                     <li class="nav-item dropdown ms-4">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Akun</a>
@@ -49,6 +72,7 @@ if(isset($_POST["submit"])){
                         </ul>
                     </li>
                 </ul>
+                </div>
             </div>
         </nav>
     </header>
@@ -88,16 +112,18 @@ if(isset($_POST["submit"])){
         </div>
     </div>
     <footer>
-        <div class="footer-left">
-            <img class="logos" src="images/logos.png" alt="">
-            <p>Cari kost di daerah Ketintang jadi lebih mudah.</p>
-        </div>
-        <div class="footer-right">
-            <div class="title">
-                <p>Contact us</p><img src="images/contact.png" alt="">
+        <div class="container">
+            <div class="footer-left">
+                <img class="logos" src="images/logos.png" alt="">
+                <p>Cari kost di daerah Ketintang jadi lebih mudah.</p>
             </div>
-            <p class="mb-0">kostketintang@gmail.com</p>
-            <p class="mb-0">(+62)89668599925</p>
+            <div class="footer-right">
+                <div class="title">
+                    <p>Contact us</p><img src="images/contact.png" alt="">
+                </div>
+                <p class="mb-0">kostketintang@gmail.com</p>
+                <p class="mb-0">(+62)89668599925</p>
+            </div>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>

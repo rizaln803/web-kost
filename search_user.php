@@ -2,42 +2,38 @@
 
 session_start();
 
-if(!isset($_SESSION["admin"])){
+if(!isset($_SESSION["login"])){
     header("Location: login.php");
     exit;
 }
 
 require 'functions.php';
 
-$username = $_SESSION['myusername'];
-$profile = query("SELECT * FROM admins WHERE username = '$username'");
-foreach($profile as $prf) :
-    $ids = $prf["id"];
-endforeach;
-$kost = query("SELECT * FROM kosts WHERE id_user = $ids");
+$kata = $_SESSION['mysearch'];
+$kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.name LIKE '%$kata%' OR kosts.room_name LIKE '%$kata%' OR admins.address LIKE '%$kata%' ORDER BY kosts.id DESC");
 
 if(isset($_POST["cari"])){
     $_SESSION['mysearch']= $_POST["masukan"];
-    header("Location: search_admin.php");
+    header("Location: search_user.php");
     exit;
 }
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard : Kost Ketintang</title>
-    <link rel="stylesheet" href="style/style_admin.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width-device-width, initial-scale-1.0">
+
+    <link rel="stylesheet" type="text/css" href="style/style_index.css">
+    <title>Kost Ketintang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand fixed-top" style="border-bottom: 2px solid #e7e7e7; background: rgba(255, 255, 255, 0.95);">
+        <nav class="navbar navbar-expand-md fixed-top" style="border-bottom: 2px solid #e7e7e7; background: rgba(255, 255, 255, 0.95);">
             <div class="container">
                 <a href="index.php" class="navbar-brand"><img src="images/logo.png" style="height: 50px" alt=""></a>
                 <form class="header-center ms-3 me-auto d-flex" action="" method="post">
@@ -50,9 +46,6 @@ if(isset($_POST["cari"])){
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="header-right ms-auto navbar-nav">
                     <li class="nav-item ms-4">
-                        <a class="nav-link" href="admin.php">Dashboard</a>
-                    </li>
-                    <li class="nav-item ms-4">
                         <a class="nav-link" href="index.php">Beranda</a>
                     </li>
                     <li class="nav-item ms-4">
@@ -64,7 +57,7 @@ if(isset($_POST["cari"])){
                     <li class="nav-item dropdown ms-4">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Akun</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li><a class="dropdown-item" href="admin_profile.php">Edit Akun</a></li>
+                        <li><a class="dropdown-item" href="user_profile.php">Edit Akun</a></li>
                         <li><a class="dropdown-item" href="logout.php">Keluar</a></li>
                         </ul>
                     </li>
@@ -74,49 +67,19 @@ if(isset($_POST["cari"])){
         </nav>
     </header>
     <div class="wrapper container">
-        <div class="top-wrapper pt-3 pb-5">
-            <h1 class="mb-3 border-bottom">Owner Dashboard</h1>
-            <?php foreach($profile as $prf) : ?>
-            <p>Nama Kost    : <?= $prf["name"]; ?></p>
-            <p>Jenis Kost   : <?= $prf["type"]; ?></p>
-            <p>Alamat Kost  : <?= $prf["address"]; ?></p>
-            <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
-            <?php endforeach; ?>
-            <h3 class="mb-3">Daftar Kamar</h3>
-            <a class="btn btn-primary mb-3" name="add" href="add_room.php">Tambah Kamar</a>
-            <div class="table-responsive">
-                <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">Aksi</th>
-                    <th scope="col">Jenis</th>
-                    <th scope="col">Harga</th>
-                    <th scope="col">Foto</th>
-                    <th scope="col">Deskripsi</th>
-                    <th scope="col">Jumlah</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i=1; ?>
-                    <?php foreach($kost as $kst) : ?>
-                    <tr>
-                    <th scope="row"><?= $i; ?></th>
-                    <td>
-                        <a class="btn btn-secondary mb-1 me-1 text-decoration-none" href="update_room.php?id=<?= $kst["id"]; ?>">Ubah</a>
-                        <a class="btn btn-danger text-decoration-none" href="delete_room.php?&id=<?= $kst["id"]; ?>" onclick="
-                        return confirm('Hapus data?');">Hapus</a>
-                    </td>
-                    <td><?= $kst["room_name"]; ?></td>
-                    <td>Rp. <?= $kst["price"]; ?></td>
-                    <td><img width="200" src="img/<?= $kst["photo"]; ?>" alt=""></td>
-                    <td width="300"><?= $kst["description"]; ?></td>
-                    <td><?= $kst["stock"]; ?></td>
-                    </tr>
-                    <?php $i++; ?>
-                    <?php endforeach; ?>
-                </tbody>
-                </table>
+        <div class="top-wrapper">
+            <div class="catalog-wrapper border border-muted pt-3 pb-5 rounded-3 border-2">
+                <h1 class="ps-0 text-decoration-none h1 catalog-title border-bottom" href="">Hasil Pencarian "<?=$kata?>"</h1>
+                <?php foreach($kost as $kmr) : ?>
+                <div style="height:550px;" class="w-50 catalog m-3 p-3 border border-muted rounded-3 border-2">
+                    <a href="" class="d-block"><img style="height:250px;" class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
+                    <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
+                    <p class="mt-2 mb-1 text-warning"><?= $kmr["type"]; ?></p>
+                    <p class="mt-2 mb-1 text-danger">Sisa Kamar: <?= $kmr["stock"]; ?></p>
+                    <p class="mt-2 mb-1"><?= $kmr["address"]; ?></p>
+                    <p class="text-success">Rp. <?= $kmr["price"]; ?></p>
+                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

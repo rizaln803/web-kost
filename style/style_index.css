@@ -7,6 +7,17 @@
     font-family: 'Poppins', sans-serif;
 }
 
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    }
+
+    input[type=number] {
+        -moz-appearance:textfield; /* Firefox */
+    }
+
     .header-center input[type=text]{
         border: 2px solid #e7e7e7;
         margin: 10px 0px 10px 10px;
@@ -66,7 +77,7 @@
     }
 
     .catalog{
-        height: 350px;
+        height: 450px;
     }
 
     .catalog-title{
