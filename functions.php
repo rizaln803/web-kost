@@ -150,6 +150,52 @@ function hapus($id){
     return mysqli_affected_rows($conn);
 }
 
+function batal($id){
+    global $conn;
+
+    $status = "Dibatalkan";
+
+    $query = "UPDATE payments SET
+                status = '$status'
+            WHERE id = $id
+            ";
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function bayar($id){
+    global $conn;
+
+    $profil = query("SELECT * FROM payments WHERE id = '$id'");
+
+    foreach($profil as $kmr) :
+        $n = $kmr["id_room"];
+    endforeach;
+
+    $kost = query("SELECT * FROM kosts WHERE id = '$n'");
+
+    foreach($kost as $kmr) :
+        $stok = $kmr["stock"]-1;
+    endforeach;
+
+    $query = "UPDATE kosts SET
+                stock = '$stok'
+            WHERE id = $n
+            ";
+    mysqli_query($conn, $query);
+
+    $status = "Sudah Dibayar";
+
+    $query1 = "UPDATE payments SET
+                status = '$status'
+            WHERE id = $id
+            ";
+    mysqli_query($conn, $query1);
+
+    return mysqli_affected_rows($conn);
+}
+
 function ubah($data){
     global $conn;
 
@@ -216,9 +262,68 @@ function usprofile($data){
     return mysqli_affected_rows($conn);
 }
 
+function komen($data){
+    global $conn;
+
+    $name = $data["names"];
+    $id_room = $data["id_room"];
+    $date = date("Y-m-d");
+    $comment = ($data["question"]);
+
+    $query = "INSERT INTO comments 
+                VALUES
+            ('', '$name', '$comment', '$date', '$id_room')
+            ";
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function balas($data){
+    global $conn;
+
+    $name = $data["names"];
+    $id_reply = $data["id_reply"];
+    $date = date("Y-m-d");
+    $comment = ($data["reply"]);
+
+    $query = "INSERT INTO replies 
+                VALUES
+            ('', '$name', '$comment', '$date', '$id_reply')
+            ";
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
 function cari($masukan){
     $query = "SELECT * FROM kosts WHERE name LIKE '%$masukan%'";
     return query($query);
+}
+
+function tambahpay($data){
+    global $conn;
+
+    $name_rent = $data["name_rent"];
+    $name_kost = $data["name"];
+    $name_room = $data["room_name"];
+    $photo_room = $data["photo_room"];
+    $type_kost = $data["type"];
+    $address_kost = $data["address"];
+    $price_room = $data["price"];
+    $periode = $data["periode"];
+    $totalprice = $price_room*$periode;
+    $status = "Belum Dibayar";
+    $id_user = $data["id"];
+    $id_room = $data["id_room"];
+
+    $query = "INSERT INTO payments 
+                VALUES
+            ('', '$name_rent', '$name_kost', '$name_room', '$photo_room', '$type_kost', '$address_kost', '$price_room', '$periode', '$totalprice', '$status', '$id_user', '$id_room')
+            ";
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
 }
 
 ?>

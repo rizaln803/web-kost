@@ -9,16 +9,7 @@ if(!isset($_SESSION["login"])){
 
 require 'functions.php';
 $username = $_SESSION['myusername'];
-$profile = query("SELECT * FROM users WHERE username = '$username'");
-if(isset($_POST["submit"])){
-    if(usprofile($_POST) > 0){
-        echo "<script>alert('Data berhasil diubah.');
-                document.location.href = 'index.php';</script>";
-    }else{
-        echo "<script>alert('Data gagal diubah.');
-                document.location.href = 'index.php';</script>";
-    }
-}
+$profile = query("SELECT * FROM users INNER JOIN payments ON users.id = payments.id_user");
 
 if(isset($_POST["cari"])){
     $_SESSION['mysearch']= $_POST["masukan"];
@@ -76,26 +67,27 @@ if(isset($_POST["cari"])){
     <div class="wrapper container">
         <div class="top-wrapper border border-muted pt-3 pb-5 rounded-3 border-2">
             <h1 class="mb-3 border-bottom">User Dashboard</h1>
-            <?php foreach($profile as $prf) : ?>
-            <p>Username    : <?= $prf["username"]; ?></p>
-            <p>Email       : <?= $prf["email"]; ?></p>
-            <?php endforeach; ?>
-            <h3 class="mb-3">Edit Akun</h3>
+            <h3 class="mb-3">Daftar Transaksi</h3>
             <div class="form-wrapper">
-                <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
                 <?php foreach($profile as $prf) : ?>
-                    <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
-                    <p class="h6 text-secondary m-0">Nama Lengkap</p>
-                    <div class="input-group">
-                        <input type="text" name="name" required value="<?= $prf["name"]; ?>">
-                    </div>
-                    <p class="h6 text-secondary m-0">Nomor HP</p>
-                    <div class="input-group">
-                        <input type="number" name="phone" value="<?= $prf["phone"]; ?>">
-                    </div>
+                <div class="col-5 m-3 p-3 border border-muted rounded-3 border-2">
+                    <img class="mb-3 w-100" style="height: 200px;" src="img/<?= $prf["photo_room"]; ?>" alt="">
+                    <p class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $prf["name_kost"]; ?> (<?= $prf["name_room"]; ?>)</p>
+                    <p class="mb-1 p-1 bg-warning text-white d-inline-block rounded-3"><?= $prf["type_kost"]; ?></p>
+                    <p class="mb-1"><?= $prf["address_kost"]; ?></p>
+                    <p class="mb-1 text-success">Total Bayar: Rp. <?= $prf["total_price"]; ?></p>
+                    <?php if($prf["status"] == "Belum Dibayar") : ?>
+                        <p class="mb-1 fw-bold text-danger">BELUM DIBAYAR</p>
+                        <a href="pay_room.php?&id=<?= $prf["id"]; ?>" onclick="return confirm('Selesaikan transaksi?');" class="h5 mb-1 me-1 btn btn-info text-white d-inline-block">Bayar</a>
+                        <a href="cancel_rent.php?&id=<?= $prf["id"]; ?>" onclick="return confirm('Batalkan transaksi?');" class="h5 mb-1 btn btn-danger text-white d-inline-block">Batal</a>
+                    <?php elseif($prf["status"] == "Sudah Dibayar") : ?>
+                        <p class="mb-1 fw-bold text-info">SUDAH DIBAYAR</p>
+                        <a href="" class="h5 mb-1 btn btn-primary text-white d-inline-block">Bukti Transaksi</a>
+                    <?php else : ?>
+                        <p class="mb-1 fw-bold text-secondary">DIBATALKAN</p>
+                    <?php endif; ?>
+                </div>
                 <?php endforeach; ?>
-                    <button class="btn btn-primary mb-2" name="submit">Edit Akun</button>
-                </form>
             </div>
         </div>
     </div>

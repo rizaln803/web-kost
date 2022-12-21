@@ -90,7 +90,7 @@ if(isset($_POST["cari"])){
                     <tr>
                     <th scope="col">No.</th>
                     <th scope="col">Aksi</th>
-                    <th scope="col">Jenis</th>
+                    <th scope="col">Tipe</th>
                     <th scope="col">Harga</th>
                     <th scope="col">Foto</th>
                     <th scope="col">Deskripsi</th>
@@ -104,12 +104,12 @@ if(isset($_POST["cari"])){
                     <th scope="row"><?= $i; ?></th>
                     <td>
                         <a class="btn btn-secondary mb-1 me-1 text-decoration-none" href="update_room.php?id=<?= $kst["id"]; ?>">Ubah</a>
-                        <a class="btn btn-danger text-decoration-none" href="delete_room.php?&id=<?= $kst["id"]; ?>" onclick="
+                        <a class="btn btn-danger mb-1 text-decoration-none" href="delete_room.php?&id=<?= $kst["id"]; ?>" onclick="
                         return confirm('Hapus data?');">Hapus</a>
                     </td>
                     <td><?= $kst["room_name"]; ?></td>
                     <td>Rp. <?= $kst["price"]; ?></td>
-                    <td><img width="200" src="img/<?= $kst["photo"]; ?>" alt=""></td>
+                    <td><img width="150" src="img/<?= $kst["photo"]; ?>" alt=""></td>
                     <td width="300"><?= $kst["description"]; ?></td>
                     <td><?= $kst["stock"]; ?></td>
                     </tr>

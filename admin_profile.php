@@ -88,8 +88,9 @@ if(isset($_POST["cari"])){
                 <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
                 <?php foreach($profile as $prf) : ?>
                     <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
+                    <p class="h6 text-secondary m-0">Nama Kost</p>
                     <div class="input-group">
-                        <input type="text" placeholder="Nama Kost" name="name" required value="<?= $prf["name"]; ?>">
+                        <input type="text" name="name" required value="<?= $prf["name"]; ?>">
                     </div>
                     <div class="input-group">
                         <select name="type" required focus>
@@ -99,11 +100,13 @@ if(isset($_POST["cari"])){
                             <option value="Kost Campur">Kost Campur</option>               
                         </select>
                     </div>
+                    <p class="h6 text-secondary m-0">Alamat Kost</p>
                     <div class="input-group">
-                            <input type="text" placeholder="Alamat Kost" name="address" required value="<?= $prf["address"]; ?>">
+                            <input type="text" name="address" required value="<?= $prf["address"]; ?>">
                     </div>
+                    <p class="h6 text-secondary m-0">Nomor HP</p>
                     <div class="input-group">
-                            <input type="number" placeholder="Nomor HP" name="phone" value="<?= $prf["phone"]; ?>">
+                            <input type="number" name="phone" value="<?= $prf["phone"]; ?>">
                     </div>
                 <?php endforeach; ?>
                     <button class="btn btn-primary mb-2" name="submit">Edit Akun</button>

@@ -9,16 +9,8 @@ if(!isset($_SESSION["login"])){
 
 require 'functions.php';
 $username = $_SESSION['myusername'];
-$profile = query("SELECT * FROM users WHERE username = '$username'");
-if(isset($_POST["submit"])){
-    if(usprofile($_POST) > 0){
-        echo "<script>alert('Data berhasil diubah.');
-                document.location.href = 'index.php';</script>";
-    }else{
-        echo "<script>alert('Data gagal diubah.');
-                document.location.href = 'index.php';</script>";
-    }
-}
+$id = $_GET["id"];
+$profile = query("SELECT * FROM payments WHERE id=$id");
 
 if(isset($_POST["cari"])){
     $_SESSION['mysearch']= $_POST["masukan"];
@@ -74,29 +66,20 @@ if(isset($_POST["cari"])){
         </nav>
     </header>
     <div class="wrapper container">
-        <div class="top-wrapper border border-muted pt-3 pb-5 rounded-3 border-2">
-            <h1 class="mb-3 border-bottom">User Dashboard</h1>
+        <div class="top-wrapper justify-content-between align-items-center col-6 border border-muted pt-3 pb-5 rounded-3 border-2">
+            <h1 class="mb-5 border-bottom">Transaction Detail</h1>
             <?php foreach($profile as $prf) : ?>
-            <p>Username    : <?= $prf["username"]; ?></p>
-            <p>Email       : <?= $prf["email"]; ?></p>
+            <p class="h5 mb-4">ID Transaksi     : <?= $prf["id"]; ?></p>
+            <p class="h5 mb-4">Nama Penyewa     : <?= $prf["name_rent"]; ?></p>
+            <p class="h5 mb-4">Nama Kost        : <?= $prf["name_kost"]; ?></p>
+            <p class="h5 mb-4">Tipe Kamar       : <?= $prf["name_room"]; ?></p>
+            <p class="h5 mb-4">Jenis Kost       : <?= $prf["type_kost"]; ?></p>
+            <p class="h5 mb-4">Alamat Kost      : <?= $prf["address_kost"]; ?></p>
+            <p class="h5 mb-4">Harga perBulan   : Rp. <?= $prf["price_room"]; ?></p>
+            <p class="h5 mb-4 border-bottom pb-1">Lama Menyewa     : <?= $prf["periode"]; ?> Bulan</p>
+            <p class="h5 mb-4">Harga Total      : Rp. <?= $prf["total_price"]; ?></p>
+            <p class="h5 mb-4">Status           : <span class="fw-bold text-success"><?= $prf["status"]; ?></span></p>
             <?php endforeach; ?>
-            <h3 class="mb-3">Edit Akun</h3>
-            <div class="form-wrapper">
-                <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
-                <?php foreach($profile as $prf) : ?>
-                    <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
-                    <p class="h6 text-secondary m-0">Nama Lengkap</p>
-                    <div class="input-group">
-                        <input type="text" name="name" required value="<?= $prf["name"]; ?>">
-                    </div>
-                    <p class="h6 text-secondary m-0">Nomor HP</p>
-                    <div class="input-group">
-                        <input type="number" name="phone" value="<?= $prf["phone"]; ?>">
-                    </div>
-                <?php endforeach; ?>
-                    <button class="btn btn-primary mb-2" name="submit">Edit Akun</button>
-                </form>
-            </div>
         </div>
     </div>
     <footer>

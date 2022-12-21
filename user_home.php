@@ -29,6 +29,7 @@ if(isset($_POST["cari"])){
 
     <link rel="stylesheet" type="text/css" href="style/style_index.css">
     <title>Kost Ketintang</title>
+    <link rel="icon" href="images/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
@@ -78,12 +79,12 @@ if(isset($_POST["cari"])){
                     }
                 ?>
                 <div class="catalog col m-3 p-3 border border-muted rounded-3 border-2">
-                    <a href=""><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
-                    <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
-                    <p class="mt-2 mb-1 text-warning"><?= $kmr["type"]; ?></p>
+                    <a href="detail.php?&id=<?= $kmr["id"]; ?>"><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
+                    <a class="text-decoration-none h5" style="color: #74b9ff;" href="detail.php?&id=<?= $kmr["id"]; ?>"><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
+                    <p class="mt-2 mb-1 p-1 bg-warning text-white d-inline-block rounded-3"><?= $kmr["type"]; ?></p>
                     <p class="mt-2 mb-1 text-danger">Sisa Kamar: <?= $kmr["stock"]; ?></p>
-                    <p class="mt-2 mb-1"><?= $kmr["address"]; ?></p>
-                    <p class="text-success">Rp. <?= $kmr["price"]; ?></p>
+                    <p class=" mb-1"><?= $kmr["address"]; ?></p>
+                    <p class="mt-2 p-1 bg-success text-white d-inline-block rounded-3">Rp. <?= $kmr["price"]; ?></p>
                 </div>
                 <?php $i++; ?>
                 <?php endforeach; ?>
@@ -99,12 +100,12 @@ if(isset($_POST["cari"])){
                     }
                 ?>
                 <div class="catalog col m-3 p-3 border border-muted rounded-3 border-2">
-                    <a href=""><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
-                    <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
-                    <p class="mt-2 mb-1 text-warning"><?= $kmr["type"]; ?></p>
+                    <a href="detail.php?&id=<?= $kmr["id"]; ?>"><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
+                    <a class="text-decoration-none h5" style="color: #74b9ff;" href="detail.php?&id=<?= $kmr["id"]; ?>"><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
+                    <p class="mt-2 mb-1 p-1 bg-warning text-white d-inline-block rounded-3"><?= $kmr["type"]; ?></p>
                     <p class="mt-2 mb-1 text-danger">Sisa Kamar: <?= $kmr["stock"]; ?></p>
-                    <p class="mt-2 mb-1"><?= $kmr["address"]; ?></p>
-                    <p class="text-success">Rp. <?= $kmr["price"]; ?></p>
+                    <p class=" mb-1"><?= $kmr["address"]; ?></p>
+                    <p class="mt-2 p-1 bg-success text-white d-inline-block rounded-3">Rp. <?= $kmr["price"]; ?></p>
                 </div>
                 <?php $i++; ?>
                 <?php endforeach; ?>
@@ -120,12 +121,12 @@ if(isset($_POST["cari"])){
                     }
                 ?>
                 <div class="catalog col m-3 p-3 border border-muted rounded-3 border-2">
-                    <a href=""><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
-                    <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
-                    <p class="mt-2 mb-1 text-warning"><?= $kmr["type"]; ?></p>
+                    <a href="detail.php?&id=<?= $kmr["id"]; ?>"><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
+                    <a class="text-decoration-none h5" style="color: #74b9ff;" href="detail.php?&id=<?= $kmr["id"]; ?>"><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
+                    <p class="mt-2 mb-1 p-1 bg-warning text-white d-inline-block rounded-3"><?= $kmr["type"]; ?></p>
                     <p class="mt-2 mb-1 text-danger">Sisa Kamar: <?= $kmr["stock"]; ?></p>
-                    <p class="mt-2 mb-1"><?= $kmr["address"]; ?></p>
-                    <p class="text-success">Rp. <?= $kmr["price"]; ?></p>
+                    <p class=" mb-1"><?= $kmr["address"]; ?></p>
+                    <p class="mt-2 p-1 bg-success text-white d-inline-block rounded-3">Rp. <?= $kmr["price"]; ?></p>
                 </div>
                 <?php $i++; ?>
                 <?php endforeach; ?>
@@ -141,12 +142,12 @@ if(isset($_POST["cari"])){
                     }
                 ?>
                 <div class="catalog col m-3 p-3 border border-muted rounded-3 border-2">
-                    <a href=""><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
-                    <a class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
-                    <p class="mt-2 mb-1 text-warning"><?= $kmr["type"]; ?></p>
+                    <a href="detail.php?&id=<?= $kmr["id"]; ?>"><img class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
+                    <a class="text-decoration-none h5" style="color: #74b9ff;" href="detail.php?&id=<?= $kmr["id"]; ?>"><?= $kmr["name"]; ?><br>(<?= $kmr["room_name"]; ?>)</a>
+                    <p class="mt-2 mb-1 p-1 bg-warning text-white d-inline-block rounded-3"><?= $kmr["type"]; ?></p>
                     <p class="mt-2 mb-1 text-danger">Sisa Kamar: <?= $kmr["stock"]; ?></p>
-                    <p class="mt-2 mb-1"><?= $kmr["address"]; ?></p>
-                    <p class="text-success">Rp. <?= $kmr["price"]; ?></p>
+                    <p class=" mb-1"><?= $kmr["address"]; ?></p>
+                    <p class="mt-2 p-1 bg-success text-white d-inline-block rounded-3">Rp. <?= $kmr["price"]; ?></p>
                 </div>
                 <?php $i++; ?>
                 <?php endforeach; ?>

@@ -8,22 +8,25 @@ if(!isset($_SESSION["login"])){
 }
 
 require 'functions.php';
+$id = $_GET["id"];
+$kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE kosts.id = '$id'");
 $username = $_SESSION['myusername'];
 $profile = query("SELECT * FROM users WHERE username = '$username'");
-if(isset($_POST["submit"])){
-    if(usprofile($_POST) > 0){
-        echo "<script>alert('Data berhasil diubah.');
-                document.location.href = 'index.php';</script>";
-    }else{
-        echo "<script>alert('Data gagal diubah.');
-                document.location.href = 'index.php';</script>";
-    }
-}
 
 if(isset($_POST["cari"])){
     $_SESSION['mysearch']= $_POST["masukan"];
     header("Location: search_user.php");
     exit;
+}
+
+if(isset($_POST["submit"])){
+    if(tambahpay($_POST) > 0){
+        echo "<script>alert('Pesanan berhasil ditambahkan.');
+                document.location.href = 'rent_list.php?&id=$id';</script>";
+    }else{
+        echo "<script>alert('Pesanan gagal ditambahkan.');
+                document.location.href = 'rent_list.php?&id=$id';</script>";
+    }
 }
 ?>
 
@@ -75,27 +78,59 @@ if(isset($_POST["cari"])){
     </header>
     <div class="wrapper container">
         <div class="top-wrapper border border-muted pt-3 pb-5 rounded-3 border-2">
-            <h1 class="mb-3 border-bottom">User Dashboard</h1>
-            <?php foreach($profile as $prf) : ?>
-            <p>Username    : <?= $prf["username"]; ?></p>
-            <p>Email       : <?= $prf["email"]; ?></p>
-            <?php endforeach; ?>
-            <h3 class="mb-3">Edit Akun</h3>
+            <h1 class="mb-3 border-bottom">Payment Page</h1>
+            <h3 class="mb-3">Detail Pembayaran</h3>
             <div class="form-wrapper">
-                <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
-                <?php foreach($profile as $prf) : ?>
-                    <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
-                    <p class="h6 text-secondary m-0">Nama Lengkap</p>
-                    <div class="input-group">
-                        <input type="text" name="name" required value="<?= $prf["name"]; ?>">
-                    </div>
-                    <p class="h6 text-secondary m-0">Nomor HP</p>
-                    <div class="input-group">
-                        <input type="number" name="phone" value="<?= $prf["phone"]; ?>">
-                    </div>
-                <?php endforeach; ?>
-                    <button class="btn btn-primary mb-2" name="submit">Edit Akun</button>
-                </form>
+            <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
+            <?php foreach($profile as $prf) : ?>
+                <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
+                <input type="hidden" name="name_rent" value="<?= $prf["name"]; ?>">
+                <p class="h6 text-secondary m-0">Nama Penyewa</p>
+                <div class="input-group">
+                        <input type="text" disabled value="<?= $prf["name"]; ?>">
+                </div>
+            <?php endforeach; ?>
+            <?php foreach($kost as $prf) : ?>
+            <input type="hidden" name="name" value="<?= $prf["name"]; ?>">
+            <input type="hidden" name="photo_room" value="<?= $prf["photo"]; ?>">
+            <input type="hidden" name="id_room" value="<?= $prf["id"]; ?>">
+            <input type="hidden" name="room_name" value="<?= $prf["room_name"]; ?>">
+            <input type="hidden" name="type" value="<?= $prf["type"]; ?>">
+            <input type="hidden" name="address" value="<?= $prf["address"]; ?>">
+            <input type="hidden" name="price" value="<?= $prf["price"]; ?>">
+            <?php endforeach; ?>
+            <?php foreach($kost as $prf) : ?>
+                <p class="h6 text-secondary m-0">Nama Kost</p>
+                <div class="input-group">
+                        <input type="text" disabled value="<?= $prf["name"]; ?>">
+                </div>
+                <p class="h6 text-secondary m-0">Tipe Kamar</p>
+                <div class="input-group">
+                        <input type="text" disabled value="<?= $prf["room_name"]; ?>">
+                </div>
+                <p class="h6 text-secondary m-0">Jenis Kost</p>
+                <div class="input-group">
+                        <input type="text" disabled value="<?= $prf["type"]; ?>">
+                </div>
+                <p class="h6 text-secondary m-0">Alamat Kost</p>
+                <div class="input-group">
+                        <input type="text" disabled value="<?= $prf["address"]; ?>">
+                </div>
+                <p class="h6 text-secondary m-0">Harga (Rp)/Bulan</p>
+                <div class="input-group">
+                        <input type="number" disabled value="<?= $prf["price"]; ?>">
+                </div>
+                <div class="input-group">
+                        <select name="periode" required focus>
+                            <option value="" disabled selected>Durasi Sewa</option> 
+                            <option value="1">1 Bulan</option>        
+                            <option value="2">2 Bulan</option>
+                            <option value="3">3 Bulan</option>               
+                        </select>
+                </div>
+            <?php endforeach; ?>
+            <button class="btn btn-info mb-3 text-white" name="submit">Konfirmasi Sewa</button>
+            </form>
             </div>
         </div>
     </div>

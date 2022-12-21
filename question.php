@@ -2,27 +2,28 @@
 
 session_start();
 
-if(!isset($_SESSION["login"])){
+if(!isset($_SESSION["admin"])){
     header("Location: login.php");
     exit;
 }
 
 require 'functions.php';
 $username = $_SESSION['myusername'];
-$profile = query("SELECT * FROM users WHERE username = '$username'");
+$profile = query("SELECT * FROM admins WHERE username = '$username'");
+$question = query("SELECT * FROM admins INNER JOIN kosts INNER JOIN comments ON comments.id_room = kosts.id AND kosts.id_user = admins.id WHERE admins.username = '$username'");
 if(isset($_POST["submit"])){
-    if(usprofile($_POST) > 0){
+    if(adprofile($_POST) > 0){
         echo "<script>alert('Data berhasil diubah.');
-                document.location.href = 'index.php';</script>";
+                document.location.href = 'admin.php';</script>";
     }else{
         echo "<script>alert('Data gagal diubah.');
-                document.location.href = 'index.php';</script>";
+                document.location.href = 'admin.php';</script>";
     }
 }
 
 if(isset($_POST["cari"])){
     $_SESSION['mysearch']= $_POST["masukan"];
-    header("Location: search_user.php");
+    header("Location: search_admin.php");
     exit;
 }
 ?>
@@ -33,7 +34,7 @@ if(isset($_POST["cari"])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style_usprofile.css">
+    <link rel="stylesheet" href="style/style_adprofile.css">
     <title>Dashboard : Kost Ketintang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -51,51 +52,66 @@ if(isset($_POST["cari"])){
                 <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                    <ul class="header-right ms-auto navbar-nav">
-                        <li class="nav-item ms-4">
-                            <a class="nav-link" href="index.php">Beranda</a>
-                        </li>
-                        <li class="nav-item ms-4">
-                            <a class="nav-link" href="">Kategori</a>
-                        </li>
-                        <li class="nav-item ms-4">
-                            <a class="nav-link" href="">Bantuan</a>
-                        </li>
-                        <li class="nav-item dropdown ms-4">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Akun</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="user_profile.php">Edit Akun</a></li>
-                            <li><a class="dropdown-item" href="logout.php">Keluar</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                <ul class="header-right ms-auto navbar-nav">
+                    <li class="nav-item ms-4">
+                        <a class="nav-link" href="admin.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item ms-4">
+                        <a class="nav-link" href="index.php">Beranda</a>
+                    </li>
+                    <li class="nav-item ms-4">
+                        <a class="nav-link" href="">Kategori</a>
+                    </li>
+                    <li class="nav-item ms-4">
+                        <a class="nav-link" href="">Bantuan</a>
+                    </li>
+                    <li class="nav-item dropdown ms-4">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Akun</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="admin_profile.php">Edit Akun</a></li>
+                        <li><a class="dropdown-item" href="logout.php">Keluar</a></li>
+                        </ul>
+                    </li>
+                </ul>
                 </div>
             </div>
         </nav>
     </header>
     <div class="wrapper container">
-        <div class="top-wrapper border border-muted pt-3 pb-5 rounded-3 border-2">
-            <h1 class="mb-3 border-bottom">User Dashboard</h1>
+        <div class="top-wrapper pt-3 pb-5">
+            <h1 class="mb-3 border-bottom">Owner Dashboard</h1>
             <?php foreach($profile as $prf) : ?>
-            <p>Username    : <?= $prf["username"]; ?></p>
-            <p>Email       : <?= $prf["email"]; ?></p>
+            <p>Nama Kost    : <?= $prf["name"]; ?></p>
+            <p>Jenis Kost   : <?= $prf["type"]; ?></p>
+            <p>Alamat Kost  : <?= $prf["address"]; ?></p>
+            <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
             <?php endforeach; ?>
-            <h3 class="mb-3">Edit Akun</h3>
-            <div class="form-wrapper">
-                <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
-                <?php foreach($profile as $prf) : ?>
-                    <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
-                    <p class="h6 text-secondary m-0">Nama Lengkap</p>
-                    <div class="input-group">
-                        <input type="text" name="name" required value="<?= $prf["name"]; ?>">
-                    </div>
-                    <p class="h6 text-secondary m-0">Nomor HP</p>
-                    <div class="input-group">
-                        <input type="number" name="phone" value="<?= $prf["phone"]; ?>">
-                    </div>
-                <?php endforeach; ?>
-                    <button class="btn btn-primary mb-2" name="submit">Edit Akun</button>
-                </form>
+            <h3 class="mb-3">Daftar Pertanyaan</h3>
+            <div class="table-responsive">
+                <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Aksi</th>
+                    <th scope="col">Tipe</th>
+                    <th scope="col">Komen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i=1; ?>
+                    <?php foreach($question as $kst) : ?>
+                    <tr>
+                    <th scope="row"><?= $i; ?></th>
+                    <td>
+                        <a class="btn btn-info mb-1 text-decoration-none text-white" href="reply.php?id=<?= $kst["id"]; ?>">Balas</a>
+                    </td>
+                    <td><?= $kst["room_name"]; ?></td>
+                    <td><?= $kst["comment"]; ?></td>
+                    </tr>
+                    <?php $i++; ?>
+                    <?php endforeach; ?>
+                </tbody>
+                </table>
             </div>
         </div>
     </div>

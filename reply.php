@@ -10,20 +10,24 @@ if(!isset($_SESSION["admin"])){
 require 'functions.php';
 $username = $_SESSION['myusername'];
 $profile = query("SELECT * FROM admins WHERE username = '$username'");
-if(isset($_POST["submit"])){
-    if(tambah($_POST) > 0){
-        echo "<script>alert('Data berhasil ditambahkan.');
-                document.location.href = 'admin.php';</script>";
-    }else{
-        echo "<script>alert('Data gagal ditambahkan.');
-                document.location.href = 'admin.php';</script>";
-    }
-}
+$id = $_GET["id"];
+$question = query("SELECT * FROM comments WHERE id = '$id'");
+$reply = query("SELECT * FROM replies WHERE id_reply = '$id' ORDER BY id DESC");
 
 if(isset($_POST["cari"])){
     $_SESSION['mysearch']= $_POST["masukan"];
     header("Location: search_admin.php");
     exit;
+}
+
+if(isset($_POST["post_reply"])){
+    if(balas($_POST) > 0){
+        echo "<script>alert('Balasan berhasil dikirim.');
+                document.location.href = 'reply.php?&id=$id';</script>";
+    }else{
+        echo "<script>alert('Balasan gagal dikirim.');
+                document.location.href = 'reply.php?&id=$id';</script>";
+    }
 }
 ?>
 
@@ -33,7 +37,7 @@ if(isset($_POST["cari"])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style_add.css">
+    <link rel="stylesheet" href="style/style_adprofile.css">
     <title>Dashboard : Kost Ketintang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -85,30 +89,43 @@ if(isset($_POST["cari"])){
             <p>Alamat Kost  : <?= $prf["address"]; ?></p>
             <p class="mb-3">No. HP       : <?= $prf["phone"]; ?></p>
             <?php endforeach; ?>
-            <h3 class="mb-3">Tambah Kamar</h3>
-            <div class="form-wrapper">
-                <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
-                    <?php foreach($profile as $prf) : ?>
-                        <input type="hidden" name="id" value="<?= $prf["id"]; ?>">
+            <h3 class="mb-3">Balas Pertanyaan</h3>
+            <div class="col-md-8">
+                    <div class="headings d-flex justify-content-between align-items-center mb-2">
+                        <h3 class="text-center border-bottom">Diskusi</h3>
+                    </div>
+                    <?php foreach($question as $kmn) : ?>
+                    <div class="card p-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="user d-flex flex-row align-items-center">
+                        <span><small class="font-weight-bold text-primary"><?= $kmn["comment_name"]; ?></small> <small class="font-weight-bold"><?= $kmn["comment"]; ?></small></span>
+                        </div>
+                        <small><?= $kmn["date"]; ?></small>
+                        </div>
+                    </div>
                     <?php endforeach; ?>
-                    <div class="input-group">
-                        <input type="text" placeholder="Tipe Kamar" name="room_name" required>
+                    <?php foreach($reply as $kmn) : ?>
+                    <div class="ps-5">
+                    <div class="card p-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="user d-flex flex-row align-items-center">
+                        <span><small class="font-weight-bold text-info"><?= $kmn["owner_name"]; ?></small> <small class="font-weight-bold"><?= $kmn["reply"]; ?></small></span>
+                        </div>
+                        <small><?= $kmn["date_reply"]; ?></small>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <input type="number" placeholder="Harga (Rp)/Bulan" name="price" required>
                     </div>
-                    <div class="input-group">
-                        <input type="text" placeholder="Deskripsi Kamar" name="description">
-                    </div>
-                    <div class="input-group">
-                        <input type="number" placeholder="Jumlah Kamar" name="stock" required>
-                    </div>
-                    <p class="h6 text-secondary m-0">Foto Kamar</p>
-                    <div class="input-group">
-                        <input type="file" name="photo" accept="image/*" required>
-                    </div>
-                    <button class="btn btn-primary mb-3" name="submit">Tambah Kamar</button>
-                </form>
+                    <?php endforeach; ?>
+                    <form action="" method="post" autocomplete="off">
+                        <?php foreach($profile as $kmn) : ?>
+                            <input value="<?= $id; ?>" name="id_reply" type="hidden">
+                            <input value="<?= $kmn["name"]; ?>" name="names" type="hidden">
+                        <?php endforeach; ?>
+                        <div class="ps-5">
+                            <input class="mb-3 small w-100 p-3 rounded-2 border border-1 border-secondary" type="text" placeholder="Jawab" name="reply" required>
+                            <button class="p w-100 p-3 btn btn-info text-white" name="post_reply" type="submit" class="btn">Balas</button>
+                        </div>
+                    </form>
             </div>
         </div>
     </div>

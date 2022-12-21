@@ -92,19 +92,23 @@ if(isset($_POST["cari"])){
                 <form action="" method="post" enctype="multipart/form-data" autocomplete="off">
                     <input type="hidden" name="gambar_lama" value="<?= $kamar["photo"]; ?>">
                     <input type="hidden" name="id" value="<?= $kamar["id"]; ?>">
+                    <p class="h6 text-secondary m-0">Tipe Kamar</p>
                     <div class="input-group">
-                        <input type="text" placeholder="Jenis Kamar" name="room_name" required value="<?= $kamar["room_name"]; ?>">
+                        <input type="text" name="room_name" required value="<?= $kamar["room_name"]; ?>">
                     </div>
+                    <p class="h6 text-secondary m-0">Harga (Rp)/Bulan</p>
                     <div class="input-group">
-                            <input type="number" placeholder="Harga (Rp)" name="price" required value="<?= $kamar["price"]; ?>">
+                            <input type="number" name="price" required value="<?= $kamar["price"]; ?>">
                     </div>
+                    <p class="h6 text-secondary m-0">Deskripsi Kamar</p>
                     <div class="input-group">
-                            <input type="text" placeholder="Deskripsi" name="description" value="<?= $kamar["description"]; ?>">
+                            <input type="text" name="description" value="<?= $kamar["description"]; ?>">
                     </div>
+                    <p class="h6 text-secondary m-0">Jumlah Kamar</p>
                     <div class="input-group">
-                            <input type="number" placeholder="Jumlah Kamar" name="stock" required value="<?= $kamar["stock"]; ?>">
+                            <input type="number" name="stock" required value="<?= $kamar["stock"]; ?>">
                     </div>
-                        <p class="text-secondary m-0">Foto Kamar</p>
+                        <p class="h6 text-secondary m-0">Foto Kamar</p>
                         <img class="mb-3" width="400" src="img/<?= $kamar["photo"]; ?>" alt="">
                     <div class="input-group">
                         <input type="file" name="photo" accept="image/*">
