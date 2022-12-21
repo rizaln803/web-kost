@@ -14,7 +14,7 @@ if(isset($_SESSION["admin"])){
 
 require 'functions.php';
 $kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user ORDER BY kosts.id DESC");
-$cowok = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user ORDER BY kosts.price ASC");
+$cowok = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Putra' ORDER BY kosts.id DESC");
 $cewek = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Putri' ORDER BY kosts.id DESC");
 $campur = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Campur' ORDER BY kosts.id DESC");
 

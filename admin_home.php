@@ -9,7 +9,7 @@ if(!isset($_SESSION["admin"])){
 
 require 'functions.php';
 $kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user ORDER BY kosts.id DESC");
-$cowok = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user ORDER BY kosts.price ASC");
+$cowok = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Putra' ORDER BY kosts.id DESC");
 $cewek = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Putri' ORDER BY kosts.id DESC");
 $campur = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = 'Kost Campur' ORDER BY kosts.id DESC");
 
@@ -58,6 +58,7 @@ if(isset($_POST["cari"])){
                         <li><a class="dropdown-item" href="kost_ketintang_admin.php?&kategori=kost_putra">Kamar Kost Putra</a></li>
                         <li><a class="dropdown-item" href="kost_ketintang_admin.php?&kategori=kost_putri">Kamar Kost Putri</a></li>
                         <li><a class="dropdown-item" href="kost_ketintang_admin.php?&kategori=kost_campur">Kamar Kost Campur</a></li>
+                        <li><a class="dropdown-item" href="kost_ketintang_admin.php?&kategori=kost_terbaik">Kamar Kost Rating Tinggi</a></li>
                         <li><a class="dropdown-item" href="kost_ketintang_admin.php?&kategori=kost_termurah">Kamar Kost Termurah</a></li>
                         <li><a class="dropdown-item" href="kost_ketintang_admin.php?&kategori=semua_kost">Semua Kamar Kost</a></li>
                         </ul>

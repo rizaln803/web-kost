@@ -56,6 +56,7 @@ if(isset($_POST["cari"])){
                         <li><a class="dropdown-item" href="kost_ketintang.php?&kategori=kost_putra">Kamar Kost Putra</a></li>
                         <li><a class="dropdown-item" href="kost_ketintang.php?&kategori=kost_putri">Kamar Kost Putri</a></li>
                         <li><a class="dropdown-item" href="kost_ketintang.php?&kategori=kost_campur">Kamar Kost Campur</a></li>
+                        <li><a class="dropdown-item" href="kost_ketintang.php?&kategori=kost_terbaik">Kamar Kost Rating Tinggi</a></li>
                         <li><a class="dropdown-item" href="kost_ketintang.php?&kategori=kost_termurah">Kamar Kost Termurah</a></li>
                         <li><a class="dropdown-item" href="kost_ketintang.php?&kategori=semua_kost">Semua Kamar Kost</a></li>
                         </ul>

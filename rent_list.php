@@ -9,7 +9,11 @@ if(!isset($_SESSION["login"])){
 
 require 'functions.php';
 $username = $_SESSION['myusername'];
-$profile = query("SELECT * FROM users INNER JOIN payments ON users.id = payments.id_user");
+$prof = query("SELECT * FROM users WHERE username = '$username'");
+foreach($prof as $prf) :
+    $ids = $prf["id"];
+endforeach;
+$profile = query("SELECT * FROM users INNER JOIN payments ON users.id = payments.id_user WHERE users.id = '$ids' ORDER BY payments.id DESC");
 
 if(isset($_POST["cari"])){
     $masukan = $_POST["masukan"];
@@ -53,6 +57,7 @@ if(isset($_POST["cari"])){
                             <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=kost_putra">Kamar Kost Putra</a></li>
                             <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=kost_putri">Kamar Kost Putri</a></li>
                             <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=kost_campur">Kamar Kost Campur</a></li>
+                            <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=kost_terbaik">Kamar Kost Rating Tinggi</a></li>
                             <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=kost_termurah">Kamar Kost Termurah</a></li>
                             <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=semua_kost">Semua Kamar Kost</a></li>
                             </ul>
@@ -92,11 +97,11 @@ if(isset($_POST["cari"])){
                     <?php } elseif($prf["status"] == "Sudah Dibayar") { 
                         if($prf["rate"] == "Belum"){ ?> 
                             <p class="mb-1 fw-bold text-info">SUDAH DIBAYAR</p>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=1" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-danger text-white d-inline-block"><i class="bi bi-star-fill"></i> 1</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=2"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-danger text-white d-inline-block"><i class="bi bi-star-fill"></i> 2</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=3"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-danger text-white d-inline-block"><i class="bi bi-star-fill"></i> 3</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=4"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-danger text-white d-inline-block"><i class="bi bi-star-fill"></i> 4</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=5"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 btn btn-danger text-white d-inline-block"><i class="bi bi-star-fill"></i> 5</a>
+                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=1" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-warning text-white d-inline-block"><i class="bi bi-star-fill"></i> 1</a>
+                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=2"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-warning text-white d-inline-block"><i class="bi bi-star-fill"></i> 2</a>
+                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=3"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-warning text-white d-inline-block"><i class="bi bi-star-fill"></i> 3</a>
+                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=4"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-warning text-white d-inline-block"><i class="bi bi-star-fill"></i> 4</a>
+                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=5"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 btn btn-warning text-white d-inline-block"><i class="bi bi-star-fill"></i> 5</a>
                             <br>
                             <a href="transaction.php?&id=<?= $prf["id"]; ?>" class="h5 mb-1 btn btn-primary text-white d-inline-block">Bukti Transaksi</a>
                         <?php }else{ ?>
