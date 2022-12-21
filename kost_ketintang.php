@@ -14,8 +14,32 @@ if(isset($_SESSION["admin"])){
 
 require 'functions.php';
 
-$kata = $_GET["cari"];
-$kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.name LIKE '%$kata%' OR kosts.room_name LIKE '%$kata%' OR admins.address LIKE '%$kata%' ORDER BY kosts.id DESC");
+$kata = $_GET["kategori"];
+if($kata == "kost_terbaru"){
+    $m = "Kamar Kost Terbaru";
+    $kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user ORDER BY kosts.id DESC");
+}elseif($kata == "kost_putra"){
+    $m = "Kamar Kost Putra";
+    $n = "Kost Putra";
+    $kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = '$n' ORDER BY kosts.id DESC");
+}elseif($kata == "kost_putri"){
+    $m = "Kamar Kost Putri";
+    $n = "Kost Putri";
+    $kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = '$n' ORDER BY kosts.id DESC");
+}elseif($kata == "kost_campur"){
+    $m = "Kamar Kost Campur";
+    $n = "Kost Campur";
+    $kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE admins.type = '$n' ORDER BY kosts.id DESC");
+}elseif($kata == "kost_termurah"){
+    $m = "Kamar Kost Termurah";
+    $kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE kosts.price <= '500000' ORDER BY kosts.price ASC");
+}elseif($kata == "semua_kost"){
+    $m = "Semua Kamar Kost";
+    $kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user ORDER BY kosts.id DESC");
+}elseif($kata == "kost_terbaik"){
+    $m = "Kamar Kost Rating Tinggi";
+    $kost = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user ORDER BY kosts.likes DESC");
+}
 
 if(isset($_POST["cari"])){
     $masukan = $_POST["masukan"];
@@ -32,7 +56,7 @@ if(isset($_POST["cari"])){
     <meta name="viewport" content="width-device-width, initial-scale-1.0">
     <link rel="icon" href="images/logo.png" type="image/ico">
     <link rel="stylesheet" type="text/css" href="style/style_index.css">
-    <title>Hasil Pencarian "<?=$kata?>" - Kost Ketintang</title>
+    <title><?=$m;?> - Kost Ketintang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
@@ -77,19 +101,27 @@ if(isset($_POST["cari"])){
     <div class="wrapper container">
         <div class="top-wrapper">
             <div class="catalog-wrapper border border-muted pt-3 pb-5 rounded-3 border-2">
-                <h1 class="ps-0 text-decoration-none h1 catalog-title border-bottom" href="">Hasil Pencarian "<?=$kata?>"</h1>
+                <h1 class="ps-0 text-decoration-none h1 catalog-title border-bottom" href=""><?=$m;?></h1>
+                <?php $i=1; ?>
                 <?php foreach($kost as $kmr) : ?>
+                <?php if ($kata == "kost_terbaru" || $kata == "kost_terbaik") {
+                        if($i == '11'){
+                            break;
+                        }
+                    }
+                ?>
                 <div style="height:550px;" class="w-50 catalog m-3 p-3 border border-muted rounded-3 border-2">
                     <a href="detail.php?&id=<?= $kmr["id"]; ?>"><img style="height:250px;" class="mb-3" src="img/<?= $kmr["photo"]; ?>" alt=""></a>
                     <br>
                     <a class="text-decoration-none h5" style="color: #74b9ff;" href="detail.php?&id=<?= $kmr["id"]; ?>"><?= $kmr["name"]; ?> (<?= $kmr["room_name"]; ?>)</a>
                     <br>
-                    <p class="mt-2 me-1 mb-1 p-1 bg-warning text-white d-inline-block rounded-3"><?= $kmr["type"]; ?></p>
+                    <p class="mt-2 mb-1 me-1 p-1 bg-warning text-white d-inline-block rounded-3"><?= $kmr["type"]; ?></p>
                     <p class="mt-2 mb-1 p-1 bg-warning text-white d-inline-block rounded-3"><i class="bi bi-star-fill"></i> <?= round($kmr["likes"], 2); ?></p>
                     <p class="mt-2 mb-1 text-danger">Sisa Kamar: <?= $kmr["stock"]; ?></p>
                     <p class=" mb-1"><?= $kmr["address"]; ?></p>
                     <p class="mt-2 p-1 bg-success text-white d-inline-block rounded-3">Rp. <?= $kmr["price"]; ?></p>
                 </div>
+                <?php $i++; ?>
                 <?php endforeach; ?>
             </div>
         </div>

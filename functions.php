@@ -22,6 +22,7 @@ function tambah($data){
     $description = htmlspecialchars($data["description"]);
     $stock = $data["stock"];
     $ids = $data["id"];
+    $n = 0;
 
     $photo = upload();
     if(!$photo){
@@ -30,7 +31,7 @@ function tambah($data){
 
     $query = "INSERT INTO kosts 
                 VALUES
-            ('', '$room_name', '$photo', '$price', '$description', '$stock','$ids')
+            ('', '$room_name', '$photo', '$price', '$description', '$stock', '$n', '$n', '$n', '$ids')
             ";
     mysqli_query($conn, $query);
 
@@ -160,6 +161,42 @@ function batal($id){
             WHERE id = $id
             ";
     mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function rating($id, $rate){
+    global $conn;
+
+    $profil = query("SELECT * FROM payments WHERE id = '$id'");
+
+    foreach($profil as $kmr) :
+        $m = $kmr["id_room"];
+    endforeach;
+
+    $kost = query("SELECT * FROM kosts WHERE id = '$m'");
+
+    foreach($kost as $kmr) :
+        $n = $kmr["n"]+1;
+        $sum = $kmr["sum"]+$rate;
+        $rating = $sum/$n;
+    endforeach;
+
+    $query = "UPDATE kosts SET
+                likes = '$rating',
+                n = $n,
+                sum = $sum
+            WHERE id = $m
+            ";
+    mysqli_query($conn, $query);
+
+    $status = "Sudah";
+
+    $query1 = "UPDATE payments SET
+                rate = '$status'
+            WHERE id = $id
+            ";
+    mysqli_query($conn, $query1);
 
     return mysqli_affected_rows($conn);
 }
@@ -314,12 +351,13 @@ function tambahpay($data){
     $periode = $data["periode"];
     $totalprice = $price_room*$periode;
     $status = "Belum Dibayar";
+    $rate = "Belum";
     $id_user = $data["id"];
     $id_room = $data["id_room"];
 
     $query = "INSERT INTO payments 
                 VALUES
-            ('', '$name_rent', '$name_kost', '$name_room', '$photo_room', '$type_kost', '$address_kost', '$price_room', '$periode', '$totalprice', '$status', '$id_user', '$id_room')
+            ('', '$name_rent', '$name_kost', '$name_room', '$photo_room', '$type_kost', '$address_kost', '$price_room', '$periode', '$totalprice', '$status', '$rate', '$id_user', '$id_room')
             ";
     mysqli_query($conn, $query);
 

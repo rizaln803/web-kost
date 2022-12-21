@@ -10,12 +10,13 @@ if(!isset($_SESSION["login"])){
 require 'functions.php';
 
 $id = $_GET["id"];
+$rate = $_GET["rate"];
 
-if(bayar($id) > 0){
-    echo "<script>alert('Transaksi berhasil.');
+if(rating($id, $rate) > 0){
+    echo "<script>alert('Penilaian diberikan.');
             document.location.href = 'rent_list.php';</script>";
 }else{
-    echo "<script>alert('Transaksi gagal.');
+    echo "<script>alert('Penilaian gagal.');
             document.location.href = 'rent_list.php';</script>";
 }
 

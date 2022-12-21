@@ -3,8 +3,8 @@
 session_start();
 
 if(!isset($_SESSION["login"])){
-    header("Location: login.php");
-    exit;
+    echo "<script>alert('Login sebagai pencari kost untuk melanjutkan.');
+            document.location.href = 'login.php';</script>";
 }
 
 require 'functions.php';
@@ -13,12 +13,6 @@ $username = $_SESSION['myusername'];
 $user = query("SELECT * FROM users WHERE username = '$username'");
 $profile = query("SELECT * FROM admins INNER JOIN kosts ON admins.id = kosts.id_user WHERE kosts.id = '$id'");
 $komen = query("SELECT * FROM comments WHERE id_room = '$id' ORDER BY id DESC");
-
-if(isset($_POST["cari"])){
-    $_SESSION['mysearch']= $_POST["masukan"];
-    header("Location: search_user.php");
-    exit;
-}
 
 if(isset($_POST["post_comment"])){
     if(komen($_POST) > 0){
@@ -30,26 +24,36 @@ if(isset($_POST["post_comment"])){
     }
 }
 
+if(isset($_POST["cari"])){
+    $masukan = $_POST["masukan"];
+    header("Location: search_user.php?&cari=$masukan");
+    exit;
+}
+
+foreach($profile as $kmr) :
+    $m = $kmr["room_name"];
+endforeach;
+
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style_usprofile.css">
-    <title>Dashboard : Kost Ketintang</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width-device-width, initial-scale-1.0">
+    <link rel="icon" href="images/logo.png" type="image/ico">
+    <link rel="stylesheet" type="text/css" href="style/style_usprofile.css">
+    <title><?= $m; ?> - Kost Ketintang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
 <body>
-    <header>
+<header>
         <nav class="navbar navbar-expand fixed-top" style="border-bottom: 2px solid #e7e7e7; background: rgba(255, 255, 255, 0.95);">
             <div class="container">
                 <a href="index.php" class="navbar-brand"><img src="images/logo.png" style="height: 50px" alt=""></a>
                 <form class="header-center ms-3 me-auto d-flex" action="" method="post">
-                    <input class="form-control" name="masukan" type="text" placeholder="Cari Kost..." autocomplete="off">
+                    <input required class="form-control" name="masukan" type="text" placeholder="Cari Kost..." autocomplete="off">
                     <button class="btn" name="cari" type="submit">Cari</i></button>
                 </form>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -60,15 +64,23 @@ if(isset($_POST["post_comment"])){
                         <li class="nav-item ms-4">
                             <a class="nav-link" href="index.php">Beranda</a>
                         </li>
+                        <li class="nav-item dropdown ms-4">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Kategori</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=kost_putra">Kamar Kost Putra</a></li>
+                            <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=kost_putri">Kamar Kost Putri</a></li>
+                            <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=kost_campur">Kamar Kost Campur</a></li>
+                            <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=kost_termurah">Kamar Kost Termurah</a></li>
+                            <li><a class="dropdown-item" href="kost_ketintang_user.php?&kategori=semua_kost">Semua Kamar Kost</a></li>
+                            </ul>
+                         </li>
                         <li class="nav-item ms-4">
-                            <a class="nav-link" href="">Kategori</a>
-                        </li>
-                        <li class="nav-item ms-4">
-                            <a class="nav-link" href="">Bantuan</a>
+                            <a class="nav-link" href="about_user.php">Bantuan</a>
                         </li>
                         <li class="nav-item dropdown ms-4">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Akun</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="rent_list.php">Daftar Transaksi</a></li>
                             <li><a class="dropdown-item" href="user_profile.php">Edit Akun</a></li>
                             <li><a class="dropdown-item" href="logout.php">Keluar</a></li>
                             </ul>
@@ -86,6 +98,7 @@ if(isset($_POST["post_comment"])){
                     <img class="mb-3" height=400 src="img/<?= $kmr["photo"]; ?>" alt="">
                     <h1 class="mb-3" style="color: #74b9ff;"><?= $kmr["name"]; ?> (<?= $kmr["room_name"]; ?>)</h1>
                     <p class="mt-2 h5 p-2 mb-1 me-1 bg-warning text-white d-inline-block rounded-3"><?= $kmr["type"]; ?></p>
+                    <p class="mt-2 mb-1 me-1 p-1 bg-warning text-white d-inline-block rounded-3"><i class="bi bi-star-fill"></i> <?= round($kmr["likes"], 2); ?></p>
                     <p class="mt-2 h5 p-2 mb-1 bg-danger text-white d-inline-block rounded-3">Sisa Kamar: <?= $kmr["stock"]; ?></p>
                     <p class="mt-2 h5 mb-3">Alamat: <?= $kmr["address"]; ?></p>
                     <h3 class="mb-1 border-bottom d-inline-block">Deskripsi Kamar</h3>

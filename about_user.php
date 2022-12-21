@@ -3,13 +3,11 @@
 session_start();
 
 if(!isset($_SESSION["login"])){
-    header("Location: login.php");
+    header("Location: index.php");
     exit;
 }
 
 require 'functions.php';
-$username = $_SESSION['myusername'];
-$profile = query("SELECT * FROM users INNER JOIN payments ON users.id = payments.id_user");
 
 if(isset($_POST["cari"])){
     $masukan = $_POST["masukan"];
@@ -20,13 +18,13 @@ if(isset($_POST["cari"])){
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width-device-width, initial-scale-1.0">
     <link rel="icon" href="images/logo.png" type="image/ico">
-    <link rel="stylesheet" type="text/css" href="style/style_usprofile.css">
-    <title>Transaction List - Kost Ketintang</title>
+    <link rel="stylesheet" type="text/css" href="style/style_login.css">
+    <title>About - Kost Ketintang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
@@ -73,43 +71,15 @@ if(isset($_POST["cari"])){
             </div>
         </nav>
     </header>
-    <div class="wrapper container">
-        <div class="top-wrapper border border-muted pt-3 pb-5 rounded-3 border-2">
-            <h1 class="mb-3 border-bottom">User Dashboard</h1>
-            <h3 class="mb-3">Daftar Transaksi</h3>
-            <div class="form-wrapper">
-                <?php foreach($profile as $prf) : ?>
-                <div class="col-5 m-3 p-3 border border-muted rounded-3 border-2">
-                    <img class="mb-3 w-100" style="height: 200px;" src="img/<?= $prf["photo_room"]; ?>" alt="">
-                    <p class="text-decoration-none h5" style="color: #74b9ff;" href=""><?= $prf["name_kost"]; ?> (<?= $prf["name_room"]; ?>)</p>
-                    <p class="mb-1 p-1 bg-warning text-white d-inline-block rounded-3"><?= $prf["type_kost"]; ?></p>
-                    <p class="mb-1"><?= $prf["address_kost"]; ?></p>
-                    <p class="mb-1 text-success">Total Bayar: Rp. <?= $prf["total_price"]; ?></p>
-                    <?php if($prf["status"] == "Belum Dibayar") { ?> 
-                        <p class="mb-1 fw-bold text-danger">BELUM DIBAYAR</p>
-                        <a href="pay_room.php?&id=<?= $prf["id"]; ?>" onclick="return confirm('Selesaikan transaksi?');" class="h5 mb-1 me-1 btn btn-info text-white d-inline-block">Bayar</a>
-                        <a href="cancel_rent.php?&id=<?= $prf["id"]; ?>" onclick="return confirm('Batalkan transaksi?');" class="h5 mb-1 btn btn-danger text-white d-inline-block">Batal</a> 
-                    <?php } elseif($prf["status"] == "Sudah Dibayar") { 
-                        if($prf["rate"] == "Belum"){ ?> 
-                            <p class="mb-1 fw-bold text-info">SUDAH DIBAYAR</p>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=1" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-info text-white d-inline-block"><i class="bi bi-star-fill"></i> 1</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=2"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-info text-white d-inline-block"><i class="bi bi-star-fill"></i> 2</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=3"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-info text-white d-inline-block"><i class="bi bi-star-fill"></i> 3</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=4"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-info text-white d-inline-block"><i class="bi bi-star-fill"></i> 4</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=5"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 btn btn-info text-white d-inline-block"><i class="bi bi-star-fill"></i> 5</a>
-                            <br>
-                            <a href="transaction.php?&id=<?= $prf["id"]; ?>" class="h5 mb-1 btn btn-primary text-white d-inline-block">Bukti Transaksi</a>
-                        <?php }else{ ?>
-                            <p class="mb-1 fw-bold text-info">SUDAH DIBAYAR</p>
-                            <p class="mb-2 fw-bold text-warning">SUDAH DINILAI</p>
-                            <a href="transaction.php?&id=<?= $prf["id"]; ?>" class="h5 mb-1 btn btn-primary text-white d-inline-block">Bukti Transaksi</a>
-                        <?php }
-                     } else { ?>
-                        <p class="mb-1 fw-bold text-secondary">DIBATALKAN</p>
-                    <?php }
-                    ?>
-                </div>
-                <?php endforeach; ?>
+    <div class="wrapper">
+        <div class="top-wrapper" style="width: 800px; padding: 50px 50px;">
+            <h1 class="fw-bold mb-5">About Us<span><img class="float-end" height=75 src="images/logos.png" alt=""></span></h1>
+            <p class=""><span class="fw-bold mb-3">Kost Ketintang</span> merupakan website yang ditujukan untuk para pemilik kost dan pencari kost di daerah Ketintang. Pemilik kost dapat menawarkan kostnya disini. Sedangkan pencari kost dapat mencari kost yang sesuai dan melakukan pengajuan sewa.</p>
+            <p class="mb-5 text-center"></p>
+            <div class="text-center">
+            <h3 class="mb-2 fw-bold">Customer Service</h3>
+            <p class="m-0">kostketintang@mail.com</p>
+            <p class="m-0">(+62)89668599925</p>
             </div>
         </div>
     </div>
