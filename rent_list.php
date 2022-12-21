@@ -92,11 +92,11 @@ if(isset($_POST["cari"])){
                     <?php } elseif($prf["status"] == "Sudah Dibayar") { 
                         if($prf["rate"] == "Belum"){ ?> 
                             <p class="mb-1 fw-bold text-info">SUDAH DIBAYAR</p>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=1" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-info text-white d-inline-block"><i class="bi bi-star-fill"></i> 1</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=2"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-info text-white d-inline-block"><i class="bi bi-star-fill"></i> 2</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=3"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-info text-white d-inline-block"><i class="bi bi-star-fill"></i> 3</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=4"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-info text-white d-inline-block"><i class="bi bi-star-fill"></i> 4</a>
-                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=5"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 btn btn-info text-white d-inline-block"><i class="bi bi-star-fill"></i> 5</a>
+                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=1" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-danger text-white d-inline-block"><i class="bi bi-star-fill"></i> 1</a>
+                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=2"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-danger text-white d-inline-block"><i class="bi bi-star-fill"></i> 2</a>
+                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=3"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-danger text-white d-inline-block"><i class="bi bi-star-fill"></i> 3</a>
+                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=4"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 me-1 btn btn-danger text-white d-inline-block"><i class="bi bi-star-fill"></i> 4</a>
+                            <a href="rating.php?&id=<?= $prf["id"]; ?>&rate=5"" onclick="return confirm('Berikan penilaian?');" class="h5 mb-2 btn btn-danger text-white d-inline-block"><i class="bi bi-star-fill"></i> 5</a>
                             <br>
                             <a href="transaction.php?&id=<?= $prf["id"]; ?>" class="h5 mb-1 btn btn-primary text-white d-inline-block">Bukti Transaksi</a>
                         <?php }else{ ?>
